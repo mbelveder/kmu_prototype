@@ -21,9 +21,77 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
+        /* Top Navigation */
+        .top-nav {
+            background: linear-gradient(135deg, #5B4E99 0%, #4a3d7f 100%);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .top-nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            height: 60px;
+        }
+
+        .top-nav-logo {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+            text-decoration: none;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .top-nav-logo:hover {
+            opacity: 0.9;
+        }
+
+        .top-nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 8px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .top-nav-item {
+            position: relative;
+        }
+
+        .top-nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: block;
+            letter-spacing: -0.01em;
+        }
+
+        .top-nav-link:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+        }
+
+        .top-nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
         .container {
             display: flex;
-            min-height: 100vh;
+            min-height: calc(100vh - 60px);
             max-width: 1400px;
             margin: 0 auto;
             background-color: #fff;
@@ -199,30 +267,6 @@
             box-shadow: 0 2px 6px rgba(91, 78, 153, 0.1);
         }
 
-        .section.subsection.optional {
-            background-color: #fafafa;
-            border-left: 3px solid #b0b0b0;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-        }
-
-        .section.subsection.optional:hover {
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
-        }
-
-        .optional-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 10px;
-            background-color: #e8e8e8;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-left: 12px;
-        }
 
         .section.subsection.locked {
             opacity: 0.6;
@@ -468,7 +512,17 @@
         }
 
         .edit-mode.hidden {
-            display: none;
+            display: none !important;
+        }
+
+        /* Hide report form by default - will be shown only after registration as speaker */
+        #report-form-mode {
+            display: none !important;
+        }
+
+        /* Override when explicitly set to block via JavaScript */
+        #report-form-mode[style*="block"] {
+            display: block !important;
         }
 
         .display-field {
@@ -703,52 +757,31 @@
         }
 
 
-        /* Contacts Styles */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-        }
-
-        .contact-card {
-            background: linear-gradient(135deg, #fafbff 0%, #f5f7ff 100%);
+        /* Contacts Styles - Compact */
+        .contacts-compact {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            background: #f9f8fc;
             border: 2px solid #e8eaf5;
             border-radius: 12px;
             padding: 24px;
-            transition: all 0.3s ease;
+            max-width: 600px;
         }
 
-        .contact-card:hover {
-            border-color: #5B4E99;
-            box-shadow: 0 4px 16px rgba(91, 78, 153, 0.12);
-            transform: translateY(-2px);
-        }
-
-        .contact-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, #5B4E99 0%, #7c6cb8 100%);
-            border-radius: 12px;
+        .contact-item {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            margin-bottom: 16px;
-        }
-
-        .contact-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: #2c2c2c;
-            margin-bottom: 8px;
-            letter-spacing: -0.01em;
-        }
-
-        .contact-info {
-            font-size: 14px;
-            color: #666;
+            gap: 12px;
+            align-items: baseline;
+            font-size: 15px;
             line-height: 1.6;
-            margin-bottom: 4px;
+        }
+
+        .contact-label {
+            font-weight: 600;
+            color: #5B4E99;
+            min-width: 160px;
+            flex-shrink: 0;
         }
 
         .contact-link {
@@ -788,6 +821,34 @@
                 grid-template-columns: 1fr;
                 gap: 5px;
             }
+
+            .top-nav-container {
+                padding: 0 20px;
+                height: auto;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+                padding: 12px 20px;
+            }
+
+            .top-nav-menu {
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+
+            .top-nav-link {
+                font-size: 13px;
+                padding: 6px 12px;
+            }
+
+            .contact-item {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .contact-label {
+                min-width: auto;
+            }
         }
 
         /* Smooth Scroll */
@@ -811,6 +872,35 @@
     </style>
 </head>
 <body>
+    <!-- Top Navigation -->
+    <header class="top-nav">
+        <div class="top-nav-container">
+            <a href="https://kmu.cosmos.ru" class="top-nav-logo">
+                <span>🚀</span>
+                <span>КМУ 2026</span>
+            </a>
+            <nav>
+                <ul class="top-nav-menu">
+                    <li class="top-nav-item">
+                        <a href="https://kmu.cosmos.ru" class="top-nav-link">Главная</a>
+                    </li>
+                    <li class="top-nav-item">
+                        <a href="https://kmu.cosmos.ru/participants" class="top-nav-link">Участникам</a>
+                    </li>
+                    <li class="top-nav-item">
+                        <a href="https://kmu.cosmos.ru/program" class="top-nav-link">Программа</a>
+                    </li>
+                    <li class="top-nav-item">
+                        <a href="https://kmu.cosmos.ru/archive" class="top-nav-link">Архив</a>
+                    </li>
+                    <li class="top-nav-item">
+                        <a href="#" class="top-nav-link active">Личный кабинет</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
     <div class="container">
         <!-- Sidebar -->
         <aside class="sidebar">
@@ -825,9 +915,6 @@
                         <a class="nav-link active" onclick="scrollToSection('personal-data')">Мой профиль</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" onclick="scrollToSection('my-reports')">Мои доклады</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" onclick="toggleSubmenu('kmu-submenu'); scrollToSection('kmu-2026')">
                             <span>КМУ 2026</span>
                             <span class="nav-badge"></span>
@@ -838,6 +925,9 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" onclick="scrollToSection('submit-report')">Подать доклад</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" onclick="scrollToSection('my-reports')">Мои доклады</a>
                             </li>
                         </ul>
                     </li>
@@ -978,14 +1068,6 @@
             </section>
 
             <!-- My Reports Section -->
-            <section class="section" id="my-reports">
-                <h2 class="section-title">Мои доклады</h2>
-
-                <div id="my-reports-content">
-                    <!-- This will be populated by JavaScript -->
-                </div>
-            </section>
-
             <!-- KMU 2026 Section -->
             <section class="section parent-section" id="kmu-2026">
                 <h2 class="section-title">КМУ 2026</h2>
@@ -1007,12 +1089,26 @@
                         <strong>Предпочтительный язык участия:</strong> Английский
                     </div>
 
-                    <p class="section-subtitle">Пожалуйста, заполните обязательные поля и выберите форму участия для регистрации на конференцию.</p>
+                    <p class="section-subtitle">Пожалуйста, выберите формат участия для регистрации на конференцию.</p>
 
                     <form id="registration-form" onsubmit="submitRegistration(event)">
                         <div class="form-group">
+                            <label class="form-label required">Режим участия</label>
+                            <div class="radio-group">
+                                <div class="radio-option">
+                                    <input type="radio" id="mode-speaker" name="participant-mode" value="speaker" checked>
+                                    <label for="mode-speaker">Докладчик</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" id="mode-listener" name="participant-mode" value="listener">
+                                    <label for="mode-listener">Слушатель</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="form-label required">Форма участия</label>
-                            <p style="font-size: 13px; color: #999; margin-bottom: 8px;">(Очная формат участия предпочтителен)</p>
+                            <p style="font-size: 13px; color: #999; margin-bottom: 8px;">(Очный формат участия предпочтителен)</p>
                             <div class="radio-group">
                                 <div class="radio-option">
                                     <input type="radio" id="format-in-person" name="format" value="in-person" checked>
@@ -1050,19 +1146,24 @@
                             <div class="detail-value">ИКИ РАН, Москва, Россия</div>
                         </div>
                         <div class="detail-row">
+                            <div class="detail-label">Режим участия:</div>
+                            <div class="detail-value" id="success-mode">Докладчик</div>
+                        </div>
+                        <div class="detail-row">
                             <div class="detail-label">Форма участия:</div>
                             <div class="detail-value" id="success-format">Очная</div>
                         </div>
                     </div>
 
                     <div class="btn-group">
+                        <button class="btn btn-primary" onclick="editRegistration()">Редактировать</button>
                         <button class="btn btn-secondary" onclick="cancelRegistration()">Отменить участие</button>
                     </div>
                 </div>
                     </div>
 
                     <!-- Submit Report Subsection -->
-                    <div class="section subsection optional" id="submit-report">
+                    <div class="section subsection" id="submit-report">
                         <h3 class="subsection-title">Подать доклад</h3>
 
                 <!-- Info message when not registered -->
@@ -1076,17 +1177,8 @@
                     Подача доклада необязательна. Вы можете участвовать как слушатель.
                 </p>
 
-                <!-- Link to my reports if there are any -->
-                <div id="view-reports-link" style="display: none; margin-bottom: 20px; padding: 12px 16px; background-color: #f0f0f0; border-radius: 8px;">
-                    <a href="#" onclick="scrollToSection('my-reports'); return false;" style="color: #5B4E99; text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; font-size: 14px;">
-                        <span>📋</span>
-                        <span>Посмотреть мои доклады</span>
-                        <span style="color: #999; font-size: 12px;">→</span>
-                    </a>
-                </div>
-
                 <!-- Form Mode -->
-                <div class="edit-mode" id="report-form-mode" style="display: none;">
+                <div class="edit-mode" id="report-form-mode">
                     <div class="notice-box info">
                         <strong>Предпочтительный язык доклада:</strong> Английский
                     </div>
@@ -1172,6 +1264,28 @@
                         <button class="btn btn-primary" onclick="submitAnotherReport()">Подать еще один доклад</button>
                         <button class="btn btn-secondary" onclick="cancelReport()">Отменить участие</button>
                     </div>
+
+                    <!-- Link to view all reports -->
+                    <div id="view-reports-link" style="display: none; margin-top: 20px; padding: 14px 18px; background-color: #f9f8fc; border-radius: 10px; border-left: 3px solid #5B4E99;">
+                        <a onclick="scrollToSection('my-reports')" style="color: #5B4E99; cursor: pointer; text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; font-size: 14px;">
+                            <span>📋</span>
+                            <span>Посмотреть все мои доклады</span>
+                            <span style="color: #999; font-size: 12px;">↓</span>
+                        </a>
+                    </div>
+                </div>
+                    </div>
+
+                    <!-- Мои доклады Subsection -->
+                    <div class="section subsection" id="my-reports">
+                        <h3 class="subsection-title">Мои доклады</h3>
+
+                        <div class="info-text" style="margin-bottom: 20px; color: #666; font-size: 14px;">
+                            Здесь отображаются все ваши доклады, поданные на КМУ 2026. Вы можете редактировать или удалять их до окончания приема заявок.
+                        </div>
+
+                        <div id="my-reports-content">
+                            <!-- This will be populated by JavaScript -->
                 </div>
                     </div>
                 </div>
@@ -1190,64 +1304,18 @@
             <section class="section" id="contacts">
                 <h2 class="section-title">Контакты</h2>
 
-                <div class="contact-grid">
-                    <div class="contact-card">
-                        <div class="contact-icon">📧</div>
-                        <div class="contact-title">Общие вопросы</div>
-                        <div class="contact-info">
+                <div class="contacts-compact">
+                    <div class="contact-item">
+                        <span class="contact-label">Email:</span>
                             <a href="mailto:kmu@cosmos.ru" class="contact-link">kmu@cosmos.ru</a>
                         </div>
+                    <div class="contact-item">
+                        <span class="contact-label">Адрес:</span>
+                        <span>Москва, ул. Профсоюзная, д. 84/32, ИКИ РАН</span>
                     </div>
-
-                    <div class="contact-card">
-                        <div class="contact-icon">🌐</div>
-                        <div class="contact-title">Иностранным участникам</div>
-                        <div class="contact-info">
-                            <a href="mailto:ysc2026@cosmos.ru" class="contact-link">ysc2026@cosmos.ru</a>
-                        </div>
-                    </div>
-
-                    <div class="contact-card">
-                        <div class="contact-icon">📍</div>
-                        <div class="contact-title">Адрес</div>
-                        <div class="contact-info">
-                            Россия, 117997, Москва,<br>
-                            ул. Профсоюзная, д. 84/32
-                        </div>
-                        <div class="contact-info" style="margin-top: 8px;">
-                            Институт космических исследований РАН
-                        </div>
-                    </div>
-
-                    <div class="contact-card">
-                        <div class="contact-icon">📞</div>
-                        <div class="contact-title">Телефон</div>
-                        <div class="contact-info">
-                            <a href="tel:+74953333122" class="contact-link">+7 (495) 333-31-22</a>
-                        </div>
-                        <div class="contact-info" style="font-size: 13px; color: #999; margin-top: 4px;">
-                            Приёмная ИКИ РАН
-                        </div>
-                    </div>
-
-                    <div class="contact-card">
-                        <div class="contact-icon">🕒</div>
-                        <div class="contact-title">График работы</div>
-                        <div class="contact-info">
-                            Понедельник — Пятница<br>
-                            10:00 — 18:00 (МСК)
-                        </div>
-                    </div>
-
-                    <div class="contact-card">
-                        <div class="contact-icon">🔗</div>
-                        <div class="contact-title">Веб-сайт</div>
-                        <div class="contact-info">
+                    <div class="contact-item">
+                        <span class="contact-label">Сайт конференции:</span>
                             <a href="https://kmu.cosmos.ru" target="_blank" class="contact-link">kmu.cosmos.ru</a>
-                        </div>
-                        <div class="contact-info" style="margin-top: 8px;">
-                            <a href="https://iki.cosmos.ru" target="_blank" class="contact-link">iki.cosmos.ru</a>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -1255,10 +1323,141 @@
     </div>
 
     <script>
+        // ============================================
+        // Utility Functions for Safety and Reliability
+        // ============================================
+        
+        /**
+         * Safely get element by ID with null check
+         */
+        function getElement(id) {
+            const element = document.getElementById(id);
+            if (!element) {
+                console.warn(`Element with id "${id}" not found`);
+            }
+            return element;
+        }
+        
+        /**
+         * Safely get element by ID or throw error
+         */
+        function requireElement(id) {
+            const element = document.getElementById(id);
+            if (!element) {
+                throw new Error(`Required element with id "${id}" not found`);
+            }
+            return element;
+        }
+        
+        /**
+         * Sanitize string to prevent XSS attacks
+         */
+        function escapeHtml(text) {
+            if (text == null) return '';
+            const div = document.createElement('div');
+            div.textContent = String(text);
+            return div.innerHTML;
+        }
+        
+        /**
+         * Safely set text content
+         */
+        function setTextContent(element, text) {
+            if (element) {
+                element.textContent = text != null ? String(text) : '';
+            }
+        }
+        
+        /**
+         * Safely set innerHTML with sanitization
+         */
+        function setInnerHTML(element, html) {
+            if (element) {
+                element.innerHTML = html;
+            }
+        }
+        
+        /**
+         * Safely get form value
+         */
+        function getFormValue(id, defaultValue = '') {
+            const element = getElement(id);
+            return element ? (element.value || defaultValue) : defaultValue;
+        }
+        
+        /**
+         * Safely set form value
+         */
+        function setFormValue(id, value) {
+            const element = getElement(id);
+            if (element) {
+                element.value = value != null ? String(value) : '';
+            }
+        }
+        
+        /**
+         * Safely check/uncheck radio button
+         */
+        function setRadioChecked(name, value) {
+            const radio = document.querySelector(`input[name="${name}"][value="${value}"]`);
+            if (radio) {
+                radio.checked = true;
+            }
+        }
+        
+        /**
+         * Safely get checked radio value
+         */
+        function getCheckedRadio(name, defaultValue = null) {
+            const radio = document.querySelector(`input[name="${name}"]:checked`);
+            return radio ? radio.value : defaultValue;
+        }
+        
+        /**
+         * Validate required field
+         */
+        function validateRequired(value, fieldName) {
+            if (!value || !String(value).trim()) {
+                throw new Error(`Поле "${fieldName}" обязательно для заполнения`);
+            }
+            return true;
+        }
+        
+        /**
+         * Safe event listener attachment (prevents duplicates)
+         */
+        const eventListeners = new Map();
+        function safeAddEventListener(element, event, handler, options) {
+            if (!element) return;
+            
+            const key = `${element.id || 'unknown'}-${event}`;
+            if (eventListeners.has(key)) {
+                element.removeEventListener(event, eventListeners.get(key), options);
+            }
+            eventListeners.set(key, handler);
+            element.addEventListener(event, handler, options);
+        }
+        
+        /**
+         * Error handler wrapper
+         */
+        function safeExecute(fn, errorMessage = 'Произошла ошибка') {
+            try {
+                return fn();
+            } catch (error) {
+                console.error(errorMessage, error);
+                alert(`${errorMessage}: ${error.message || error}`);
+                return null;
+            }
+        }
+        
+        // ============================================
         // State management
+        // ============================================
         let state = {
             hasArchive: true, // Change to false to show empty state
             registrationSubmitted: false,
+            participantMode: 'speaker', // 'speaker' or 'listener'
             reportSubmitted: false,
             submittedReports: [], // Array of submitted reports for KMU 2026
             archiveData: [
@@ -1279,59 +1478,80 @@
 
         // Navigation functions
         function scrollToSection(sectionId) {
-            const section = document.getElementById(sectionId);
+            const section = getElement(sectionId);
             if (section) {
-                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // Get the section's position
+                const sectionTop = section.getBoundingClientRect().top + window.pageYOffset;
+                // Offset for the top navigation (60px height + 20px padding)
+                const offset = 80;
+                // Scroll to position minus offset
+                window.scrollTo({
+                    top: sectionTop - offset,
+                    behavior: 'smooth'
+                });
             }
         }
 
         function toggleSubmenu(submenuId) {
-            const submenu = document.getElementById(submenuId);
+            const submenu = getElement(submenuId);
+            if (submenu) {
             submenu.classList.toggle('active');
+            }
         }
 
         // Personal Data functions
         function toggleEditMode(section) {
             if (section === 'personal') {
-                document.getElementById('personal-display').classList.remove('active');
-                document.getElementById('personal-edit').classList.remove('hidden');
-                document.getElementById('consent-personal').checked = true;
+                const display = getElement('personal-display');
+                const edit = getElement('personal-edit');
+                const consent = getElement('consent-personal');
+                if (display) display.classList.remove('active');
+                if (edit) edit.classList.remove('hidden');
+                if (consent) consent.checked = true;
             }
         }
 
         function cancelEdit(section) {
             if (section === 'personal') {
-                document.getElementById('personal-display').classList.add('active');
-                document.getElementById('personal-edit').classList.add('hidden');
+                const display = getElement('personal-display');
+                const edit = getElement('personal-edit');
+                if (display) display.classList.add('active');
+                if (edit) edit.classList.add('hidden');
             }
         }
 
         // Check if personal data is complete
         function checkPersonalDataComplete() {
-            const firstNameEn = document.getElementById('display-first-name-en')?.textContent?.trim();
-            const lastNameEn = document.getElementById('display-last-name-en')?.textContent?.trim();
-            const orgEn = document.getElementById('display-org-en')?.textContent?.trim();
-            const email = document.getElementById('display-email')?.textContent?.trim();
-            const citizenship = document.getElementById('display-citizenship')?.textContent?.trim();
+            const firstNameEn = getElement('display-first-name-en')?.textContent?.trim();
+            const lastNameEn = getElement('display-last-name-en')?.textContent?.trim();
+            const orgEn = getElement('display-org-en')?.textContent?.trim();
+            const email = getElement('display-email')?.textContent?.trim();
+            const citizenship = getElement('display-citizenship')?.textContent?.trim();
 
-            return firstNameEn && 
-                   lastNameEn && 
-                   orgEn && 
-                   email && 
-                   citizenship &&
-                   firstNameEn !== '-' &&
-                   lastNameEn !== '-' &&
-                   orgEn !== '-' &&
-                   email !== '-' &&
-                   citizenship !== '-';
+            return !!(firstNameEn && 
+                     lastNameEn && 
+                     orgEn && 
+                     email && 
+                     citizenship &&
+                     firstNameEn !== '-' &&
+                     lastNameEn !== '-' &&
+                     orgEn !== '-' &&
+                     email !== '-' &&
+                     citizenship !== '-');
         }
 
         // Update registration section visibility
         function updateRegistrationVisibility() {
-            const registrationSection = document.getElementById('registration');
-            const registrationForm = document.getElementById('registration-form-mode');
-            const registrationSuccess = document.getElementById('registration-success');
-            const lockedMessage = document.getElementById('registration-locked-message');
+            const registrationSection = getElement('registration');
+            const registrationForm = getElement('registration-form-mode');
+            const registrationSuccess = getElement('registration-success');
+            const lockedMessage = getElement('registration-locked-message');
+            
+            if (!registrationSection || !registrationForm || !registrationSuccess || !lockedMessage) {
+                console.warn('Some elements for registration visibility are missing');
+                return;
+            }
+            
             const isComplete = checkPersonalDataComplete();
 
             if (isComplete) {
@@ -1361,33 +1581,51 @@
 
         // Update submit report section visibility
         function updateSubmitReportVisibility() {
-            const submitReportSection = document.getElementById('submit-report');
-            const reportFormMode = document.getElementById('report-form-mode');
-            const reportSuccess = document.getElementById('report-success');
-            const lockedMessage = document.getElementById('submit-report-locked-message');
-            const listenerInfoText = document.getElementById('listener-info-text');
+            const submitReportSection = getElement('submit-report');
+            const reportFormMode = getElement('report-form-mode');
+            const reportSuccess = getElement('report-success');
+            const lockedMessage = getElement('submit-report-locked-message');
+            const listenerInfoText = getElement('listener-info-text');
+            
+            if (!submitReportSection || !reportFormMode || !reportSuccess || !lockedMessage || !listenerInfoText) {
+                console.warn('Some elements for submit report visibility are missing');
+                return;
+            }
 
-            if (state.registrationSubmitted) {
-                // Show submit report section if registered
+            if (state.registrationSubmitted && state.participantMode === 'speaker') {
+                // Show submit report section if registered as speaker
                 submitReportSection.classList.remove('locked');
                 lockedMessage.style.display = 'none';
                 
                 // Show form or success state based on current state
-                if (!state.reportSubmitted || state.submittedReports.length === 0) {
-                    reportFormMode.style.display = 'block';
-                    reportSuccess.classList.remove('active');
-                } else {
-                    reportFormMode.style.display = 'none';
+                // Check if there's a success state visible or if we just submitted
+                const isSuccessVisible = reportSuccess.classList.contains('active');
+                if (isSuccessVisible || (state.reportSubmitted && state.submittedReports.length > 0)) {
+                    // Show success state, hide form
+                    reportFormMode.style.setProperty('display', 'none', 'important');
                     reportSuccess.classList.add('active');
+                } else {
+                    // Show form, hide success
+                    reportFormMode.style.setProperty('display', 'block', 'important');
+                    reportSuccess.classList.remove('active');
                 }
                 
                 // Show subtle listener info text
                 listenerInfoText.style.display = 'block';
+            } else if (state.registrationSubmitted && state.participantMode === 'listener') {
+                // Hide submit report section if registered as listener
+                submitReportSection.classList.add('locked');
+                reportFormMode.style.setProperty('display', 'none', 'important');
+                reportSuccess.classList.remove('active');
+                setInnerHTML(lockedMessage, '<strong>Вы зарегистрированы как слушатель.</strong><br>Подача доклада не требуется для участия в режиме слушателя.');
+                lockedMessage.style.display = 'block';
+                listenerInfoText.style.display = 'none';
             } else {
                 // Hide submit report section if not registered
                 submitReportSection.classList.add('locked');
-                reportFormMode.style.display = 'none';
+                reportFormMode.style.setProperty('display', 'none', 'important');
                 reportSuccess.classList.remove('active');
+                setInnerHTML(lockedMessage, '<strong>Для подачи доклада необходимо сначала зарегистрироваться на конференцию.</strong><br>Пожалуйста, зарегистрируйтесь в разделе "Регистрация на конференцию" выше.');
                 lockedMessage.style.display = 'block';
                 listenerInfoText.style.display = 'none';
             }
@@ -1396,79 +1634,183 @@
         function savePersonalData(event) {
             event.preventDefault();
 
-            // Get form values
+            return safeExecute(() => {
+                // Get form values with validation
             const data = {
-                firstNameEn: document.getElementById('first-name-en').value,
-                lastNameEn: document.getElementById('last-name-en').value,
-                firstNameRu: document.getElementById('first-name-ru').value,
-                lastNameRu: document.getElementById('last-name-ru').value,
-                patronymic: document.getElementById('patronymic').value,
-                citizenship: document.getElementById('citizenship').value,
-                email: document.getElementById('email').value,
-                orgEn: document.getElementById('org-en').value,
-                orgRu: document.getElementById('org-ru').value
-            };
+                    firstNameEn: getFormValue('first-name-en', '').trim(),
+                    lastNameEn: getFormValue('last-name-en', '').trim(),
+                    firstNameRu: getFormValue('first-name-ru', '').trim(),
+                    lastNameRu: getFormValue('last-name-ru', '').trim(),
+                    patronymic: getFormValue('patronymic', '').trim(),
+                    citizenship: getFormValue('citizenship', '').trim(),
+                    email: getFormValue('email', '').trim(),
+                    orgEn: getFormValue('org-en', '').trim(),
+                    orgRu: getFormValue('org-ru', '').trim()
+                };
+
+                // Validate required fields
+                try {
+                    validateRequired(data.firstNameEn, 'Имя (англ.)');
+                    validateRequired(data.lastNameEn, 'Фамилия (англ.)');
+                    validateRequired(data.orgEn, 'Организация (англ.)');
+                    validateRequired(data.email, 'E-mail');
+                    validateRequired(data.citizenship, 'Гражданство');
+                } catch (error) {
+                    alert(error.message);
+                    return false;
+                }
 
             // Update display values
-            document.getElementById('display-first-name-en').textContent = data.firstNameEn;
-            document.getElementById('display-last-name-en').textContent = data.lastNameEn;
-            document.getElementById('display-first-name-ru').textContent = data.firstNameRu || '-';
-            document.getElementById('display-last-name-ru').textContent = data.lastNameRu || '-';
-            document.getElementById('display-patronymic').textContent = data.patronymic || '-';
-            document.getElementById('display-citizenship').textContent = data.citizenship;
-            document.getElementById('display-email').textContent = data.email;
-            document.getElementById('display-org-en').textContent = data.orgEn;
-            document.getElementById('display-org-ru').textContent = data.orgRu || '-';
+                setTextContent(getElement('display-first-name-en'), data.firstNameEn);
+                setTextContent(getElement('display-last-name-en'), data.lastNameEn);
+                setTextContent(getElement('display-first-name-ru'), data.firstNameRu || '-');
+                setTextContent(getElement('display-last-name-ru'), data.lastNameRu || '-');
+                setTextContent(getElement('display-patronymic'), data.patronymic || '-');
+                setTextContent(getElement('display-citizenship'), data.citizenship);
+                setTextContent(getElement('display-email'), data.email);
+                setTextContent(getElement('display-org-en'), data.orgEn);
+                setTextContent(getElement('display-org-ru'), data.orgRu || '-');
 
             // Update user name in sidebar
             const userName = data.firstNameRu && data.lastNameRu
                 ? `${data.firstNameRu} ${data.lastNameRu}`
                 : `${data.firstNameEn} ${data.lastNameEn}`;
-            document.querySelector('.user-name').textContent = userName;
+                const userNameElement = document.querySelector('.user-name');
+                if (userNameElement) {
+                    userNameElement.textContent = userName;
+                }
 
             const initials = data.firstNameRu && data.lastNameRu
-                ? `${data.firstNameRu[0]}${data.lastNameRu[0]}`
-                : `${data.firstNameEn[0]}${data.lastNameEn[0]}`;
-            document.querySelector('.user-avatar').textContent = initials;
+                    ? `${data.firstNameRu[0] || ''}${data.lastNameRu[0] || ''}`
+                    : `${data.firstNameEn[0] || ''}${data.lastNameEn[0] || ''}`;
+                const avatarElement = document.querySelector('.user-avatar');
+                if (avatarElement) {
+                    avatarElement.textContent = initials;
+                }
 
             // Switch to display mode
-            document.getElementById('personal-display').classList.add('active');
-            document.getElementById('personal-edit').classList.add('hidden');
+                const display = getElement('personal-display');
+                const edit = getElement('personal-edit');
+                if (display) display.classList.add('active');
+                if (edit) edit.classList.add('hidden');
 
-            // Update registration visibility
-            updateRegistrationVisibility();
+                // Update registration visibility
+                updateRegistrationVisibility();
+                return true;
+            }, 'Ошибка при сохранении личных данных');
         }
 
         // Registration functions
         function submitRegistration(event) {
             event.preventDefault();
 
-            const format = document.querySelector('input[name="format"]:checked').value;
-            const formatText = format === 'in-person' ? 'Очный' : 'Онлайн';
+            return safeExecute(() => {
+                const formatRadio = document.querySelector('input[name="format"]:checked');
+                const modeRadio = document.querySelector('input[name="participant-mode"]:checked');
+                
+                if (!formatRadio || !modeRadio) {
+                    alert('Пожалуйста, выберите формат участия и режим участия');
+                    return false;
+                }
+                
+                const format = formatRadio.value;
+                const formatText = format === 'in-person' ? 'Очный' : 'Онлайн';
+                const participantMode = modeRadio.value;
+                const modeText = participantMode === 'speaker' ? 'Докладчик' : 'Слушатель';
 
-            document.getElementById('success-format').textContent = formatText;
+                // Store previous mode to check if it changed
+                const previousMode = state.participantMode;
+                const wasRegistered = state.registrationSubmitted;
 
-            document.getElementById('registration-form-mode').classList.add('hidden');
-            document.getElementById('registration-success').classList.add('active');
+                setTextContent(getElement('success-format'), formatText);
+                setTextContent(getElement('success-mode'), modeText);
+
+                const registrationForm = getElement('registration-form-mode');
+                const registrationSuccess = getElement('registration-success');
+                
+                if (!registrationForm || !registrationSuccess) {
+                    console.error('Registration form elements not found');
+                    return false;
+                }
+
+                registrationForm.style.display = 'none';
+                registrationSuccess.classList.add('active');
 
             state.registrationSubmitted = true;
+            state.participantMode = participantMode;
 
-            // Update submit report section visibility
-            updateSubmitReportVisibility();
+            // If mode changed from speaker to listener, hide report form
+            // If mode changed from listener to speaker, show report form
+            if (wasRegistered && previousMode !== participantMode) {
+                if (previousMode === 'speaker' && participantMode === 'listener') {
+                    // Hide report form and clear any submitted reports if switching to listener
+                    // (optional: you might want to keep reports, but hide the form)
+                } else if (previousMode === 'listener' && participantMode === 'speaker') {
+                    // Show report form when switching to speaker
+                }
+            }
+
+                // Update submit report section visibility
+                updateSubmitReportVisibility();
+                
+                // Update registration visibility to ensure consistency
+                updateRegistrationVisibility();
+                return true;
+            }, 'Ошибка при регистрации');
+        }
+
+        function editRegistration() {
+            const registrationForm = getElement('registration-form-mode');
+            const registrationSuccess = getElement('registration-success');
+            
+            if (!registrationForm || !registrationSuccess) {
+                console.error('Registration form elements not found');
+                return;
+            }
+
+            // Show form, keep registration active
+            registrationForm.style.display = 'block';
+            registrationSuccess.classList.remove('active');
+
+            // Fill form with current values
+            setRadioChecked('participant-mode', state.participantMode);
+
+            // Get current format from success state or use default
+            const successFormat = getElement('success-format');
+            const currentFormat = successFormat ? successFormat.textContent.trim() : 'Очный';
+            setRadioChecked('format', currentFormat === 'Онлайн' ? 'online' : 'in-person');
+
+            // Ensure consent checkbox is checked
+            const consent = getElement('consent-registration');
+            if (consent) consent.checked = true;
         }
 
         function cancelRegistration() {
-            document.getElementById('registration-form-mode').classList.remove('hidden');
-            document.getElementById('registration-success').classList.remove('active');
+            const registrationForm = getElement('registration-form-mode');
+            const registrationSuccess = getElement('registration-success');
+            
+            if (!registrationForm || !registrationSuccess) {
+                console.error('Registration form elements not found');
+                return;
+            }
+
+            registrationForm.style.display = 'block';
+            registrationSuccess.classList.remove('active');
 
             // Reset form
-            document.getElementById('registration-form').reset();
-            document.getElementById('format-in-person').checked = true;
+            const form = getElement('registration-form');
+            if (form) form.reset();
+            setRadioChecked('format', 'in-person');
+            setRadioChecked('participant-mode', 'speaker');
 
             state.registrationSubmitted = false;
+            state.participantMode = 'speaker';
 
             // Update submit report section visibility
             updateSubmitReportVisibility();
+            
+            // Update registration visibility to ensure consistency
+            updateRegistrationVisibility();
         }
 
         // Form submit handler
@@ -1482,8 +1824,6 @@
 
         // Report submission functions
         function submitReport(event) {
-            console.log('submitReport called');
-            
             if (event) {
                 event.preventDefault();
                 event.stopPropagation();
@@ -1496,45 +1836,47 @@
             }
             window.isSubmittingReport = true;
 
+            return safeExecute(() => {
             // If editing, remove old report first
             if (window.editingReportId) {
-                state.submittedReports = state.submittedReports.filter(r => r.id !== window.editingReportId);
+                    const editingId = Number(window.editingReportId);
+                    // Use loose equality to handle type differences
+                    state.submittedReports = state.submittedReports.filter(r => r.id != editingId);
                 window.editingReportId = null;
             }
 
-            const titleInput = document.getElementById('report-title');
-            const sectionSelect = document.getElementById('report-section');
-            const abstractTextarea = document.getElementById('report-abstract');
-            
-            // Validate form
-            if (!titleInput.value.trim()) {
-                alert('Пожалуйста, введите название доклада');
-                titleInput.focus();
-                window.isSubmittingReport = false;
+                const titleInput = getElement('report-title');
+                const sectionSelect = getElement('report-section');
+                const abstractTextarea = getElement('report-abstract');
+                
+                if (!titleInput || !sectionSelect || !abstractTextarea) {
+                    alert('Ошибка: не найдены элементы формы');
+                    window.isSubmittingReport = false;
                 return false;
             }
             
-            if (!sectionSelect.value) {
-                alert('Пожалуйста, выберите секцию');
-                sectionSelect.focus();
-                window.isSubmittingReport = false;
-                return false;
-            }
-            
-            if (!abstractTextarea.value.trim()) {
-                alert('Пожалуйста, введите аннотацию доклада');
-                abstractTextarea.focus();
-                window.isSubmittingReport = false;
+                // Validate form
+                const title = titleInput.value.trim();
+                const section = sectionSelect.value;
+                const abstract = abstractTextarea.value.trim();
+                
+                try {
+                    validateRequired(title, 'Название доклада');
+                    validateRequired(section, 'Секция');
+                    validateRequired(abstract, 'Аннотация доклада');
+                } catch (error) {
+                    alert(error.message);
+                    if (error.message.includes('Название')) titleInput.focus();
+                    else if (error.message.includes('Секция')) sectionSelect.focus();
+                    else if (error.message.includes('Аннотация')) abstractTextarea.focus();
+                    window.isSubmittingReport = false;
                 return false;
             }
 
-            const title = titleInput.value.trim();
-            const section = sectionSelect.value;
-            const sectionText = sectionSelect.options[sectionSelect.selectedIndex].text;
+                const sectionText = sectionSelect.options[sectionSelect.selectedIndex]?.text || section;
             const formatRadio = document.querySelector('input[name="presentation-format"]:checked');
             const format = formatRadio ? formatRadio.value : 'in-person';
             const formatText = format === 'in-person' ? 'Очная' : 'Онлайн';
-            const abstract = abstractTextarea.value.trim();
 
             // Generate mock schedule data
             const rooms = ['Кабинет №202', 'Кабинет №301', 'Аудитория №101', 'Конференц-зал'];
@@ -1559,92 +1901,131 @@
             // Add to submitted reports
             state.submittedReports.push(reportData);
 
+            // Set state before updating UI
+            state.reportSubmitted = true;
+
             // Hide form and show success
-            const formMode = document.getElementById('report-form-mode');
-            const successState = document.getElementById('report-success');
-            
-            formMode.classList.add('hidden');
+                const formMode = getElement('report-form-mode');
+                const successState = getElement('report-success');
+                
+                if (!formMode || !successState) {
+                    console.error('Report form elements not found');
+                    window.isSubmittingReport = false;
+                    return false;
+                }
+                
+                formMode.style.setProperty('display', 'none', 'important');
             successState.classList.add('active');
 
-            // Update success details with actual data
+                // Update success details with actual data (with sanitization)
             const successDetails = document.querySelector('#report-success .success-details');
             if (!successDetails) {
                 console.error('Success details element not found');
                 // Still continue to save the report even if display fails
             } else {
-                successDetails.innerHTML = `
+                    setInnerHTML(successDetails, `
                     <div class="detail-row">
                         <div class="detail-label">Дата и время выступления:</div>
-                        <div class="detail-value">${reportData.date}, ${reportData.time}</div>
+                            <div class="detail-value">${escapeHtml(reportData.date)}, ${escapeHtml(reportData.time)}</div>
                     </div>
                     <div class="detail-row">
                         <div class="detail-label">Зал:</div>
-                        <div class="detail-value">${reportData.room}</div>
+                            <div class="detail-value">${escapeHtml(reportData.room)}</div>
                     </div>
                     <div class="detail-row" style="grid-template-columns: 1fr;">
                         <div class="detail-label">Название доклада:</div>
-                        <div class="report-title" id="success-report-title">${title}</div>
+                            <div class="report-title" id="success-report-title">${escapeHtml(title)}</div>
                     </div>
                     <div class="detail-row">
                         <div class="detail-label">Секция:</div>
-                        <div class="detail-value">${sectionText}</div>
+                            <div class="detail-value">${escapeHtml(sectionText)}</div>
                     </div>
                     <div class="detail-row">
                         <div class="detail-label">Форма выступления:</div>
-                        <div class="detail-value" id="success-presentation-format">${formatText}</div>
+                            <div class="detail-value" id="success-presentation-format">${escapeHtml(formatText)}</div>
                     </div>
-                `;
+                    `);
             }
-
-            state.reportSubmitted = true;
 
             // Refresh reports lists
             renderMyReports();
-            updateViewReportsLink();
+                updateViewReportsLink();
 
-            // Reset submission flag after a short delay
-            setTimeout(() => {
-                window.isSubmittingReport = false;
-            }, 500);
+                // Update visibility to ensure form stays hidden
+                updateSubmitReportVisibility();
+
+                // Reset submission flag after a short delay
+                setTimeout(() => {
+                    window.isSubmittingReport = false;
+                }, 500);
+                
+                return true;
+            }, 'Ошибка при подаче доклада');
+            
+            // If safeExecute returned false, reset flag
+            if (window.isSubmittingReport) {
+                setTimeout(() => {
+                    window.isSubmittingReport = false;
+                }, 100);
+            }
         }
 
         function cancelReport() {
-            document.getElementById('report-form-mode').classList.remove('hidden');
-            document.getElementById('report-success').classList.remove('active');
+            const formMode = getElement('report-form-mode');
+            const successState = getElement('report-success');
+            
+            if (!formMode || !successState) {
+                console.error('Report form elements not found');
+                return;
+            }
+            
+            formMode.style.setProperty('display', 'block', 'important');
+            successState.classList.remove('active');
 
             // Reset form
-            document.getElementById('report-form').reset();
-            document.getElementById('presentation-in-person').checked = true;
+            const form = getElement('report-form');
+            if (form) form.reset();
+            setRadioChecked('presentation-format', 'in-person');
 
             state.reportSubmitted = false;
+
+            // Update visibility
+            updateSubmitReportVisibility();
         }
 
         function submitAnotherReport() {
-            console.log('submitAnotherReport called');
-            
             // Reset form and show it
-            const formMode = document.getElementById('report-form-mode');
-            const successState = document.getElementById('report-success');
-            const form = document.getElementById('report-form');
+            const formMode = getElement('report-form-mode');
+            const successState = getElement('report-success');
+            const form = getElement('report-form');
+            
+            if (!formMode || !successState || !form) {
+                console.error('Report form elements not found');
+                return;
+            }
             
             // Hide success state
             successState.classList.remove('active');
             
             // Show form
-            formMode.classList.remove('hidden');
+            formMode.style.setProperty('display', 'block', 'important');
             
             // Reset form
             form.reset();
-            document.getElementById('presentation-in-person').checked = true;
+            setRadioChecked('presentation-format', 'in-person');
             
-            // Ensure form submit handler is attached
-            form.removeEventListener('submit', handleReportFormSubmit);
-            form.addEventListener('submit', handleReportFormSubmit);
+            // Reset submission state
+            state.reportSubmitted = false;
+            
+            // Ensure form submit handler is attached (using safe method)
+            safeAddEventListener(form, 'submit', handleReportFormSubmit);
+            
+            // Update visibility
+            updateSubmitReportVisibility();
             
             // Scroll to form and focus
             setTimeout(() => {
-                console.log('Form should be visible now');
-                const titleInput = document.getElementById('report-title');
+                const titleInput = getElement('report-title');
                 if (titleInput) {
                     titleInput.focus();
                 }
@@ -1654,55 +2035,71 @@
 
         // My Reports functions
         function renderMyReports() {
-            const myReportsContent = document.getElementById('my-reports-content');
+            const myReportsContent = getElement('my-reports-content');
+            
+            if (!myReportsContent) {
+                console.error('My reports content element not found');
+                return;
+            }
 
             if (state.submittedReports.length === 0) {
-                myReportsContent.innerHTML = `
+                setInnerHTML(myReportsContent, `
                     <div class="empty-state">
                         <div class="empty-state-icon">📋</div>
                         <div class="empty-state-text">У вас пока нет поданных докладов на КМУ 2026</div>
                     </div>
-                `;
+                `);
             } else {
                 // Update view reports link when rendering
                 updateViewReportsLink();
                 
-                myReportsContent.innerHTML = `
-                    <div class="report-list">
-                        ${state.submittedReports.map(report => `
+                // Sanitize all user input to prevent XSS
+                const reportsHtml = state.submittedReports.map(report => {
+                    const safeTitle = escapeHtml(report.title);
+                    const safeSectionText = escapeHtml(report.sectionText);
+                    const safeFormatText = escapeHtml(report.formatText);
+                    const safeDate = report.date ? escapeHtml(report.date) : '';
+                    const safeTime = report.time ? escapeHtml(report.time) : '';
+                    const safeRoom = report.room ? escapeHtml(report.room) : '';
+                    const safeStatus = escapeHtml(report.status);
+                    const safeStatusText = escapeHtml(getStatusText(report.status));
+                    const reportId = Number(report.id) || 0; // Ensure it's a number for onclick
+                    
+                    return `
                             <div class="report-card">
                                 <div class="report-card-header">
                                     <div style="flex: 1;">
-                                        <div class="report-card-title">${report.title}</div>
+                                    <div class="report-card-title">${safeTitle}</div>
                                         <div class="report-card-meta">
-                                            <div><strong>Секция:</strong> ${report.sectionText}</div>
-                                            <div><strong>Форма:</strong> ${report.formatText}</div>
-                                            ${report.date ? `<div><strong>Дата и время:</strong> ${report.date}, ${report.time}</div>` : ''}
-                                            ${report.room ? `<div><strong>Зал:</strong> ${report.room}</div>` : ''}
+                                        <div><strong>Секция:</strong> ${safeSectionText}</div>
+                                        <div><strong>Форма:</strong> ${safeFormatText}</div>
+                                        ${safeDate ? `<div><strong>Дата и время:</strong> ${safeDate}, ${safeTime}</div>` : ''}
+                                        ${safeRoom ? `<div><strong>Зал:</strong> ${safeRoom}</div>` : ''}
                                         </div>
                                     </div>
-                                    <span class="report-status ${report.status}">${getStatusText(report.status)}</span>
+                                <span class="report-status ${safeStatus}">${safeStatusText}</span>
                                 </div>
                                 <div class="report-card-actions">
-                                    <button class="btn btn-secondary btn-small" onclick="editReport(${report.id})">Редактировать</button>
-                                    <button class="btn btn-secondary btn-small" onclick="deleteReport(${report.id})">Удалить</button>
+                                <button class="btn btn-secondary btn-small" onclick="editReport(${reportId})">Редактировать</button>
+                                <button class="btn btn-secondary btn-small" onclick="deleteReport(${reportId})">Удалить</button>
                                 </div>
-                            </div>
-                        `).join('')}
                     </div>
                 `;
+                }).join('');
+                
+                setInnerHTML(myReportsContent, `<div class="report-list">${reportsHtml}</div>`);
             }
         }
 
         // Update view reports link visibility
         function updateViewReportsLink() {
-            const viewReportsLink = document.getElementById('view-reports-link');
+            const viewReportsLink = getElement('view-reports-link');
             if (viewReportsLink) {
-                if (state.submittedReports.length > 0) {
-                    viewReportsLink.style.display = 'block';
-                } else {
-                    viewReportsLink.style.display = 'none';
-                }
+                // Show link only if there are submitted reports AND user is registered as speaker
+                const shouldShow = state.submittedReports.length > 0 && 
+                                  state.registrationSubmitted && 
+                                  state.participantMode === 'speaker';
+                viewReportsLink.style.display = shouldShow ? 'block' : 'none';
             }
         }
 
@@ -1712,72 +2109,135 @@
                 'accepted': 'Принят',
                 'scheduled': 'Запланирован'
             };
-            return statusMap[status] || status;
+            return statusMap[status] || String(status);
         }
 
         function editReport(reportId) {
-            const report = state.submittedReports.find(r => r.id === reportId);
-            if (!report) return;
+            console.log('editReport called with:', reportId, 'type:', typeof reportId);
+            
+            // Convert to number for consistency
+            const numericReportId = Number(reportId);
+            
+            // Use loose equality (==) to handle both string and number types
+            const report = state.submittedReports.find(r => r.id == numericReportId);
+            if (!report) {
+                console.warn(`Report with id ${reportId} not found`);
+                alert('Ошибка: доклад не найден');
+                return;
+            }
 
-            // Store report ID for later deletion
-            window.editingReportId = reportId;
+            // Store report ID for later deletion (as number)
+            window.editingReportId = numericReportId;
 
             // Scroll to submit report section
             scrollToSection('submit-report');
 
             // Fill form with report data
-            document.getElementById('report-title').value = report.title;
-            document.getElementById('report-section').value = report.section;
-            document.getElementById('report-abstract').value = report.abstract;
+            setFormValue('report-title', report.title);
+            setFormValue('report-section', report.section);
+            setFormValue('report-abstract', report.abstract);
             
-            if (report.format === 'in-person') {
-                document.getElementById('presentation-in-person').checked = true;
-            } else {
-                document.getElementById('presentation-online').checked = true;
-            }
+            setRadioChecked('presentation-format', report.format);
 
             // Show form
-            const formMode = document.getElementById('report-form-mode');
-            const successState = document.getElementById('report-success');
+            const formMode = getElement('report-form-mode');
+            const successState = getElement('report-success');
+            
+            if (!formMode || !successState) {
+                console.error('Report form elements not found');
+                return;
+            }
             
             successState.classList.remove('active');
-            formMode.classList.remove('hidden');
+            formMode.style.setProperty('display', 'block', 'important');
+            
+            // Reset submission state
+            state.reportSubmitted = false;
         }
 
         function deleteReport(reportId) {
-            if (confirm('Вы уверены, что хотите удалить этот доклад?')) {
-                state.submittedReports = state.submittedReports.filter(r => r.id !== reportId);
+            console.log('deleteReport called with:', reportId, 'type:', typeof reportId);
+            console.log('Current reports:', state.submittedReports.map(r => ({id: r.id, type: typeof r.id, title: r.title})));
+            
+            if (!confirm('Вы уверены, что хотите удалить этот доклад?')) {
+                return;
+            }
+            
+            // Convert reportId to number to ensure type consistency
+            const numericReportId = Number(reportId);
+            console.log('Numeric ID:', numericReportId);
+            
+            const initialLength = state.submittedReports.length;
+            
+            // Use loose equality (==) to handle both string and number types
+            state.submittedReports = state.submittedReports.filter(r => {
+                const matches = r.id == numericReportId; // Use == instead of !==
+                console.log(`Comparing report ${r.id} (${typeof r.id}) with ${numericReportId} (${typeof numericReportId}): ${matches ? 'match' : 'no match'}`);
+                return !matches;
+            });
+            
+            console.log('Reports after filter:', state.submittedReports.length);
+            
+            if (state.submittedReports.length < initialLength) {
+                console.log('Report deleted successfully');
                 renderMyReports();
                 updateViewReportsLink();
+                
+                // If no reports left, update visibility
+                if (state.submittedReports.length === 0) {
+                    updateSubmitReportVisibility();
+                }
+            } else {
+                console.error(`Failed to delete report with id ${reportId}`);
+                alert('Ошибка: не удалось удалить доклад');
             }
         }
 
         // Archive functions
         function renderArchive() {
-            const archiveContent = document.getElementById('archive-content');
+            const archiveContent = getElement('archive-content');
+            
+            if (!archiveContent) {
+                console.error('Archive content element not found');
+                return;
+            }
 
             if (!state.hasArchive || state.archiveData.length === 0) {
-                archiveContent.innerHTML = `
+                setInnerHTML(archiveContent, `
                     <div class="empty-state">
                         <div class="empty-state-icon">📋</div>
                         <div class="empty-state-text">У вас пока нет докладов в архиве</div>
                     </div>
-                `;
+                `);
             } else {
-                archiveContent.innerHTML = state.archiveData.map(item => `
+                // Sanitize archive data to prevent XSS
+                const archiveHtml = state.archiveData.map(item => {
+                    const safeYear = escapeHtml(item.year || '');
+                    const safeTitle = escapeHtml(item.title || '');
+                    const safeDate = escapeHtml(item.date || '');
+                    const safeLocation = escapeHtml(item.location || '');
+                    
+                    return `
                     <div class="archive-item">
-                        <div class="archive-year">${item.year}</div>
-                        <div class="archive-title">${item.title}</div>
-                        <div class="archive-meta">${item.date} • ${item.location}</div>
+                            <div class="archive-year">${safeYear}</div>
+                            <div class="archive-title">${safeTitle}</div>
+                            <div class="archive-meta">${safeDate} • ${safeLocation}</div>
                     </div>
-                `).join('');
+                    `;
+                }).join('');
+                
+                setInnerHTML(archiveContent, archiveHtml);
             }
         }
 
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
+            safeExecute(() => {
             // Set initial display mode for personal data
-            document.getElementById('personal-display').classList.add('active');
+                const personalDisplay = getElement('personal-display');
+                if (personalDisplay) {
+                    personalDisplay.classList.add('active');
+                }
 
             // Render archive
             renderArchive();
@@ -1785,21 +2245,32 @@
             // Render my reports
             renderMyReports();
 
-            // Update view reports link
-            updateViewReportsLink();
+                // Update view reports link
+                updateViewReportsLink();
 
-            // Update registration visibility based on personal data
-            updateRegistrationVisibility();
+                // Update registration visibility based on personal data
+                updateRegistrationVisibility();
+
+                // Explicitly ensure report form is hidden on load
+                const reportFormMode = getElement('report-form-mode');
+                if (reportFormMode) {
+                    if (!state.registrationSubmitted || state.participantMode !== 'speaker') {
+                        reportFormMode.style.setProperty('display', 'none', 'important');
+                    }
+                }
 
             // Auto-open KMU submenu
-            document.getElementById('kmu-submenu').classList.add('active');
+                const kmuSubmenu = getElement('kmu-submenu');
+                if (kmuSubmenu) {
+                    kmuSubmenu.classList.add('active');
+                }
 
-            // Attach form submit handler
-            const reportForm = document.getElementById('report-form');
+                // Attach form submit handler (using safe method)
+                const reportForm = getElement('report-form');
             if (reportForm) {
-                console.log('Attaching form submit handler');
-                reportForm.addEventListener('submit', handleReportFormSubmit);
-            }
+                    safeAddEventListener(reportForm, 'submit', handleReportFormSubmit);
+                }
+            }, 'Ошибка при инициализации страницы');
         });
     </script>
 </body>
