@@ -199,6 +199,47 @@
             box-shadow: 0 2px 6px rgba(91, 78, 153, 0.1);
         }
 
+        .section.subsection.optional {
+            background-color: #fafafa;
+            border-left: 3px solid #b0b0b0;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+        }
+
+        .section.subsection.optional:hover {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+        }
+
+        .optional-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            background-color: #e8e8e8;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 12px;
+        }
+
+        .section.subsection.locked {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .info-message {
+            background-color: #FFF3E0;
+            border-left: 4px solid #FF9800;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #E65100;
+            line-height: 1.6;
+        }
+
         .section.parent-section {
             padding-bottom: 30px;
         }
@@ -273,27 +314,27 @@
         .form-select {
             width: 100%;
             padding: 13px 16px;
-            border: 2px solid #e5e5e5;
+            border: 2px solid #d0d0d0;
             border-radius: 10px;
             font-size: 15px;
             transition: all 0.25s ease;
             font-family: inherit;
-            background-color: #fafafa;
-            color: #2c2c2c;
+            background-color: #e8e8e8;
+            color: #1a1a1a;
         }
 
         .form-input:hover,
         .form-select:hover {
-            border-color: #d0d0d0;
-            background-color: #fff;
+            border-color: #b0b0b0;
+            background-color: #e0e0e0;
         }
 
         .form-input:focus,
         .form-select:focus {
             outline: none;
             border-color: #5B4E99;
-            background-color: #fff;
-            box-shadow: 0 0 0 4px rgba(91, 78, 153, 0.08);
+            background-color: #f0f0f0;
+            box-shadow: 0 0 0 4px rgba(91, 78, 153, 0.12);
         }
 
         .form-input.error {
@@ -661,24 +702,6 @@
             color: #1565C0;
         }
 
-        .submitted-reports-list {
-            margin-bottom: 30px;
-        }
-
-        .submitted-reports-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #5B4E99;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .submitted-reports-title::before {
-            content: '📋';
-            font-size: 18px;
-        }
 
         /* Contacts Styles */
         .contact-grid {
@@ -972,6 +995,12 @@
                     <div class="section subsection" id="registration">
                         <h3 class="subsection-title">Регистрация на конференцию</h3>
 
+                <!-- Info message when personal data is incomplete -->
+                <div class="info-message" id="registration-locked-message" style="display: none;">
+                    <strong>Для регистрации на конференцию необходимо заполнить личные данные.</strong><br>
+                    Пожалуйста, заполните все обязательные поля в разделе "Личные данные" (First Name, Last Name, Organization, E-mail, Citizenship).
+                </div>
+
                 <!-- Form Mode -->
                 <div class="edit-mode" id="registration-form-mode">
                     <div class="notice-box info">
@@ -987,7 +1016,7 @@
                             <div class="radio-group">
                                 <div class="radio-option">
                                     <input type="radio" id="format-in-person" name="format" value="in-person" checked>
-                                    <label for="format-in-person">Очная</label>
+                                    <label for="format-in-person">Очный</label>
                                 </div>
                                 <div class="radio-option">
                                     <input type="radio" id="format-online" name="format" value="online">
@@ -1033,13 +1062,25 @@
                     </div>
 
                     <!-- Submit Report Subsection -->
-                    <div class="section subsection" id="submit-report">
-                        <h3 class="subsection-title">Подать доклад</h3>
+                    <div class="section subsection optional" id="submit-report">
+                        <h3 class="subsection-title">
+                            Подать доклад
+                            <span class="optional-badge">Необязательно</span>
+                        </h3>
 
-                <!-- Submitted Reports List -->
-                <div class="submitted-reports-list" id="submitted-reports-list" style="display: none;">
-                    <div class="submitted-reports-title">Уже поданные доклады</div>
-                    <div id="submitted-reports-content"></div>
+                <!-- Info about listener option -->
+                <div class="notice-box" style="background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%); border-left-color: #4CAF50; color: #2E7D32; margin-bottom: 20px;">
+                    <strong>💡 Участие как слушатель</strong><br>
+                    Вы можете участвовать в конференции как слушатель без доклада. Подача доклада необязательна. Если вы хотите представить свой доклад, заполните форму ниже.
+                </div>
+
+                <!-- Link to my reports if there are any -->
+                <div id="view-reports-link" style="display: none; margin-bottom: 20px; padding: 12px 16px; background-color: #f0f0f0; border-radius: 8px;">
+                    <a href="#" onclick="scrollToSection('my-reports'); return false;" style="color: #5B4E99; text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; font-size: 14px;">
+                        <span>📋</span>
+                        <span>Посмотреть мои доклады</span>
+                        <span style="color: #999; font-size: 12px;">→</span>
+                    </a>
                 </div>
 
                 <!-- Form Mode -->
@@ -1048,7 +1089,7 @@
                         <strong>Предпочтительный язык доклада:</strong> Английский
                     </div>
 
-                    <p class="section-subtitle">Пожалуйста, заполните информацию о вашем докладе. Все поля обязательны для заполнения.</p>
+                    <p class="section-subtitle">Если вы хотите представить доклад, пожалуйста, заполните информацию ниже. Все поля обязательны для заполнения.</p>
 
                     <form id="report-form" novalidate>
                         <div class="form-row single">
@@ -1263,6 +1304,56 @@
             }
         }
 
+        // Check if personal data is complete
+        function checkPersonalDataComplete() {
+            const firstNameEn = document.getElementById('display-first-name-en')?.textContent?.trim();
+            const lastNameEn = document.getElementById('display-last-name-en')?.textContent?.trim();
+            const orgEn = document.getElementById('display-org-en')?.textContent?.trim();
+            const email = document.getElementById('display-email')?.textContent?.trim();
+            const citizenship = document.getElementById('display-citizenship')?.textContent?.trim();
+
+            return firstNameEn && 
+                   lastNameEn && 
+                   orgEn && 
+                   email && 
+                   citizenship &&
+                   firstNameEn !== '-' &&
+                   lastNameEn !== '-' &&
+                   orgEn !== '-' &&
+                   email !== '-' &&
+                   citizenship !== '-';
+        }
+
+        // Update registration section visibility
+        function updateRegistrationVisibility() {
+            const registrationSection = document.getElementById('registration');
+            const registrationForm = document.getElementById('registration-form-mode');
+            const registrationSuccess = document.getElementById('registration-success');
+            const lockedMessage = document.getElementById('registration-locked-message');
+            const isComplete = checkPersonalDataComplete();
+
+            if (isComplete) {
+                // Show registration form if not already registered
+                if (!state.registrationSubmitted) {
+                    registrationSection.classList.remove('locked');
+                    registrationForm.style.display = 'block';
+                    registrationSuccess.classList.remove('active');
+                    lockedMessage.style.display = 'none';
+                } else {
+                    registrationSection.classList.remove('locked');
+                    registrationForm.style.display = 'none';
+                    registrationSuccess.classList.add('active');
+                    lockedMessage.style.display = 'none';
+                }
+            } else {
+                // Hide registration if personal data is incomplete
+                registrationSection.classList.add('locked');
+                registrationForm.style.display = 'none';
+                registrationSuccess.classList.remove('active');
+                lockedMessage.style.display = 'block';
+            }
+        }
+
         function savePersonalData(event) {
             event.preventDefault();
 
@@ -1304,6 +1395,9 @@
             // Switch to display mode
             document.getElementById('personal-display').classList.add('active');
             document.getElementById('personal-edit').classList.add('hidden');
+
+            // Update registration visibility
+            updateRegistrationVisibility();
         }
 
         // Registration functions
@@ -1350,6 +1444,13 @@
                 event.stopPropagation();
             }
 
+            // Prevent double submission
+            if (window.isSubmittingReport) {
+                console.log('Report submission already in progress, ignoring duplicate call');
+                return false;
+            }
+            window.isSubmittingReport = true;
+
             // If editing, remove old report first
             if (window.editingReportId) {
                 state.submittedReports = state.submittedReports.filter(r => r.id !== window.editingReportId);
@@ -1364,18 +1465,21 @@
             if (!titleInput.value.trim()) {
                 alert('Пожалуйста, введите название доклада');
                 titleInput.focus();
+                window.isSubmittingReport = false;
                 return false;
             }
             
             if (!sectionSelect.value) {
                 alert('Пожалуйста, выберите секцию');
                 sectionSelect.focus();
+                window.isSubmittingReport = false;
                 return false;
             }
             
             if (!abstractTextarea.value.trim()) {
                 alert('Пожалуйста, введите аннотацию доклада');
                 abstractTextarea.focus();
+                window.isSubmittingReport = false;
                 return false;
             }
 
@@ -1451,7 +1555,12 @@
 
             // Refresh reports lists
             renderMyReports();
-            renderSubmittedReportsList();
+            updateViewReportsLink();
+
+            // Reset submission flag after a short delay
+            setTimeout(() => {
+                window.isSubmittingReport = false;
+            }, 500);
         }
 
         function cancelReport() {
@@ -1487,17 +1596,6 @@
             form.removeEventListener('submit', handleReportFormSubmit);
             form.addEventListener('submit', handleReportFormSubmit);
             
-            // Also re-attach button click handler
-            const submitButton = form.querySelector('button[type="submit"]');
-            if (submitButton) {
-                submitButton.removeEventListener('click', handleReportFormSubmit);
-                submitButton.addEventListener('click', function(e) {
-                    console.log('Submit button clicked (after reset)');
-                    e.preventDefault();
-                    handleReportFormSubmit(e);
-                });
-            }
-            
             // Scroll to form and focus
             setTimeout(() => {
                 console.log('Form should be visible now');
@@ -1521,6 +1619,9 @@
                     </div>
                 `;
             } else {
+                // Update view reports link when rendering
+                updateViewReportsLink();
+                
                 myReportsContent.innerHTML = `
                     <div class="report-list">
                         ${state.submittedReports.map(report => `
@@ -1548,23 +1649,15 @@
             }
         }
 
-        function renderSubmittedReportsList() {
-            const submittedList = document.getElementById('submitted-reports-list');
-            const submittedContent = document.getElementById('submitted-reports-content');
-
-            if (state.submittedReports.length === 0) {
-                submittedList.style.display = 'none';
-            } else {
-                submittedList.style.display = 'block';
-                submittedContent.innerHTML = state.submittedReports.map(report => `
-                    <div class="report-card" style="margin-bottom: 12px;">
-                        <div class="report-card-title" style="font-size: 16px; margin-bottom: 8px;">${report.title}</div>
-                        <div class="report-card-meta" style="font-size: 13px;">
-                            <div>${report.sectionText} • ${report.formatText}</div>
-                            ${report.date ? `<div style="color: #999; margin-top: 4px;">${report.date}, ${report.time} • ${report.room}</div>` : ''}
-                        </div>
-                    </div>
-                `).join('');
+        // Update view reports link visibility
+        function updateViewReportsLink() {
+            const viewReportsLink = document.getElementById('view-reports-link');
+            if (viewReportsLink) {
+                if (state.submittedReports.length > 0) {
+                    viewReportsLink.style.display = 'block';
+                } else {
+                    viewReportsLink.style.display = 'none';
+                }
             }
         }
 
@@ -1610,7 +1703,7 @@
             if (confirm('Вы уверены, что хотите удалить этот доклад?')) {
                 state.submittedReports = state.submittedReports.filter(r => r.id !== reportId);
                 renderMyReports();
-                renderSubmittedReportsList();
+                updateViewReportsLink();
             }
         }
 
@@ -1647,8 +1740,11 @@
             // Render my reports
             renderMyReports();
 
-            // Render submitted reports list
-            renderSubmittedReportsList();
+            // Update view reports link
+            updateViewReportsLink();
+
+            // Update registration visibility based on personal data
+            updateRegistrationVisibility();
 
             // Auto-open KMU submenu
             document.getElementById('kmu-submenu').classList.add('active');
@@ -1658,16 +1754,6 @@
             if (reportForm) {
                 console.log('Attaching form submit handler');
                 reportForm.addEventListener('submit', handleReportFormSubmit);
-                
-                // Also attach click handler to submit button as backup
-                const submitButton = reportForm.querySelector('button[type="submit"]');
-                if (submitButton) {
-                    submitButton.addEventListener('click', function(e) {
-                        console.log('Submit button clicked');
-                        e.preventDefault();
-                        handleReportFormSubmit(e);
-                    });
-                }
             }
         });
     </script>
