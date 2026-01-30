@@ -1063,16 +1063,18 @@
 
                     <!-- Submit Report Subsection -->
                     <div class="section subsection optional" id="submit-report">
-                        <h3 class="subsection-title">
-                            Подать доклад
-                            <span class="optional-badge">Необязательно</span>
-                        </h3>
+                        <h3 class="subsection-title">Подать доклад</h3>
 
-                <!-- Info about listener option -->
-                <div class="notice-box" style="background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%); border-left-color: #4CAF50; color: #2E7D32; margin-bottom: 20px;">
-                    <strong>💡 Участие как слушатель</strong><br>
-                    Вы можете участвовать в конференции как слушатель без доклада. Подача доклада необязательна. Если вы хотите представить свой доклад, заполните форму ниже.
+                <!-- Info message when not registered -->
+                <div class="info-message" id="submit-report-locked-message" style="display: none;">
+                    <strong>Для подачи доклада необходимо сначала зарегистрироваться на конференцию.</strong><br>
+                    Пожалуйста, зарегистрируйтесь в разделе "Регистрация на конференцию" выше.
                 </div>
+
+                <!-- Subtle info about listener option (shown only when registered) -->
+                <p class="section-subtitle" id="listener-info-text" style="font-size: 13px; color: #999; margin-bottom: 20px; display: none;">
+                    Подача доклада необязательна. Вы можете участвовать как слушатель.
+                </p>
 
                 <!-- Link to my reports if there are any -->
                 <div id="view-reports-link" style="display: none; margin-bottom: 20px; padding: 12px 16px; background-color: #f0f0f0; border-radius: 8px;">
@@ -1084,7 +1086,7 @@
                 </div>
 
                 <!-- Form Mode -->
-                <div class="edit-mode" id="report-form-mode">
+                <div class="edit-mode" id="report-form-mode" style="display: none;">
                     <div class="notice-box info">
                         <strong>Предпочтительный язык доклада:</strong> Английский
                     </div>
@@ -1352,6 +1354,43 @@
                 registrationSuccess.classList.remove('active');
                 lockedMessage.style.display = 'block';
             }
+
+            // Update submit report section visibility
+            updateSubmitReportVisibility();
+        }
+
+        // Update submit report section visibility
+        function updateSubmitReportVisibility() {
+            const submitReportSection = document.getElementById('submit-report');
+            const reportFormMode = document.getElementById('report-form-mode');
+            const reportSuccess = document.getElementById('report-success');
+            const lockedMessage = document.getElementById('submit-report-locked-message');
+            const listenerInfoText = document.getElementById('listener-info-text');
+
+            if (state.registrationSubmitted) {
+                // Show submit report section if registered
+                submitReportSection.classList.remove('locked');
+                lockedMessage.style.display = 'none';
+                
+                // Show form or success state based on current state
+                if (!state.reportSubmitted || state.submittedReports.length === 0) {
+                    reportFormMode.style.display = 'block';
+                    reportSuccess.classList.remove('active');
+                } else {
+                    reportFormMode.style.display = 'none';
+                    reportSuccess.classList.add('active');
+                }
+                
+                // Show subtle listener info text
+                listenerInfoText.style.display = 'block';
+            } else {
+                // Hide submit report section if not registered
+                submitReportSection.classList.add('locked');
+                reportFormMode.style.display = 'none';
+                reportSuccess.classList.remove('active');
+                lockedMessage.style.display = 'block';
+                listenerInfoText.style.display = 'none';
+            }
         }
 
         function savePersonalData(event) {
@@ -1405,7 +1444,7 @@
             event.preventDefault();
 
             const format = document.querySelector('input[name="format"]:checked').value;
-            const formatText = format === 'in-person' ? 'Очная' : 'Онлайн';
+            const formatText = format === 'in-person' ? 'Очный' : 'Онлайн';
 
             document.getElementById('success-format').textContent = formatText;
 
@@ -1413,6 +1452,9 @@
             document.getElementById('registration-success').classList.add('active');
 
             state.registrationSubmitted = true;
+
+            // Update submit report section visibility
+            updateSubmitReportVisibility();
         }
 
         function cancelRegistration() {
@@ -1424,6 +1466,9 @@
             document.getElementById('format-in-person').checked = true;
 
             state.registrationSubmitted = false;
+
+            // Update submit report section visibility
+            updateSubmitReportVisibility();
         }
 
         // Form submit handler
