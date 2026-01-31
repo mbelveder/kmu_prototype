@@ -856,19 +856,7 @@
             scroll-behavior: smooth;
         }
 
-        /* Icon styles */
-        .nav-link::before {
-            content: '›';
-            margin-right: 8px;
-            font-weight: bold;
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-
-        .nav-link.active::before,
-        .nav-link:hover::before {
-            opacity: 1;
-        }
+        /* Remove icon/arrow styles - navigation items should just highlight on hover */
     </style>
 </head>
 <body>
@@ -912,30 +900,27 @@
             <nav>
                 <ul class="nav-menu">
                     <li class="nav-item">
-                        <a class="nav-link active" onclick="scrollToSection('personal-data')">Мой профиль</a>
+                        <a class="nav-link active" onclick="scrollToSection('personal-data')" data-section="personal-data">Личные данные</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" onclick="toggleSubmenu('kmu-submenu'); scrollToSection('kmu-2026')">
+                        <a class="nav-link" onclick="scrollToSection('kmu-2026')" data-section="kmu-2026">
                             <span>КМУ 2026</span>
                             <span class="nav-badge"></span>
                         </a>
-                        <ul class="nav-submenu" id="kmu-submenu">
+                        <ul class="nav-submenu active" id="kmu-submenu">
                             <li class="nav-item">
-                                <a class="nav-link" onclick="scrollToSection('registration')">Зарегистрироваться</a>
+                                <a class="nav-link" onclick="scrollToSection('registration')" data-section="registration">Зарегистрироваться</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" onclick="scrollToSection('submit-report')">Подать доклад</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" onclick="scrollToSection('my-reports')">Мои доклады</a>
+                                <a class="nav-link" onclick="scrollToSection('my-reports')" data-section="my-reports">Мои доклады</a>
                             </li>
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" onclick="scrollToSection('archive')">Архив участий</a>
+                        <a class="nav-link" onclick="scrollToSection('archive')" data-section="archive">Архив участий</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" onclick="scrollToSection('contacts')">Контакты</a>
+                        <a class="nav-link" onclick="scrollToSection('contacts')" data-section="contacts">Контакты</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link logout">Выйти</a>
@@ -1085,27 +1070,9 @@
 
                 <!-- Form Mode -->
                 <div class="edit-mode" id="registration-form-mode">
-                    <div class="notice-box info">
-                        <strong>Предпочтительный язык участия:</strong> Английский
-                    </div>
-
                     <p class="section-subtitle">Пожалуйста, выберите формат участия для регистрации на конференцию.</p>
 
                     <form id="registration-form" onsubmit="submitRegistration(event)">
-                        <div class="form-group">
-                            <label class="form-label required">Режим участия</label>
-                            <div class="radio-group">
-                                <div class="radio-option">
-                                    <input type="radio" id="mode-speaker" name="participant-mode" value="speaker" checked>
-                                    <label for="mode-speaker">Докладчик</label>
-                                </div>
-                                <div class="radio-option">
-                                    <input type="radio" id="mode-listener" name="participant-mode" value="listener">
-                                    <label for="mode-listener">Слушатель</label>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="form-group">
                             <label class="form-label required">Форма участия</label>
                             <p style="font-size: 13px; color: #999; margin-bottom: 8px;">(Очный формат участия предпочтителен)</p>
@@ -1146,10 +1113,6 @@
                             <div class="detail-value">ИКИ РАН, Москва, Россия</div>
                         </div>
                         <div class="detail-row">
-                            <div class="detail-label">Режим участия:</div>
-                            <div class="detail-value" id="success-mode">Докладчик</div>
-                        </div>
-                        <div class="detail-row">
                             <div class="detail-label">Форма участия:</div>
                             <div class="detail-value" id="success-format">Очная</div>
                         </div>
@@ -1162,25 +1125,28 @@
                 </div>
                     </div>
 
-                    <!-- Submit Report Subsection -->
-                    <div class="section subsection" id="submit-report">
-                        <h3 class="subsection-title">Подать доклад</h3>
+                    <!-- Мои доклады Subsection -->
+                    <div class="section subsection" id="my-reports">
+                        <h3 class="subsection-title">Мои доклады</h3>
 
-                <!-- Info message when not registered -->
-                <div class="info-message" id="submit-report-locked-message" style="display: none;">
-                    <strong>Для подачи доклада необходимо сначала зарегистрироваться на конференцию.</strong><br>
-                    Пожалуйста, зарегистрируйтесь в разделе "Регистрация на конференцию" выше.
+                        <!-- Button to show report form (always visible, disabled if not registered) -->
+                        <div id="show-report-form-section">
+                            <p class="section-subtitle" style="font-size: 14px; color: #666; margin-bottom: 16px;">
+                                Если вы хотите представить доклад на конференции, нажмите кнопку ниже.<br>
+                                <span style="color: #999; font-size: 13px;">Подача доклада необязательна — вы можете участвовать в конференции как слушатель.</span>
+                            </p>
+                            <button id="submit-report-btn" class="btn btn-primary" onclick="showReportForm()" style="margin-bottom: 20px;" disabled>
+                                Подать доклад
+                            </button>
+                            <p id="registration-required-hint" style="font-size: 13px; color: #999; margin-top: -12px; margin-bottom: 20px;">
+                                Для подачи доклада необходимо зарегистрироваться на конференцию
+                            </p>
                 </div>
-
-                <!-- Subtle info about listener option (shown only when registered) -->
-                <p class="section-subtitle" id="listener-info-text" style="font-size: 13px; color: #999; margin-bottom: 20px; display: none;">
-                    Подача доклада необязательна. Вы можете участвовать как слушатель.
-                </p>
 
                 <!-- Form Mode -->
                 <div class="edit-mode" id="report-form-mode">
                     <div class="notice-box info">
-                        <strong>Предпочтительный язык доклада:</strong> Английский
+                        <strong>Предпочтительный язык участия:</strong> Английский
                     </div>
 
                     <p class="section-subtitle">Если вы хотите представить доклад, пожалуйста, заполните информацию ниже. Все поля обязательны для заполнения.</p>
@@ -1211,15 +1177,15 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label required">Форма выступления</label>
+                                    <label class="form-label required">Язык доклада</label>
                             <div class="radio-group">
                                 <div class="radio-option">
-                                    <input type="radio" id="presentation-in-person" name="presentation-format" value="in-person" checked>
-                                    <label for="presentation-in-person">Очная</label>
+                                            <input type="radio" id="language-english" name="report-language" value="english" checked>
+                                            <label for="language-english">Английский</label>
                                 </div>
                                 <div class="radio-option">
-                                    <input type="radio" id="presentation-online" name="presentation-format" value="online">
-                                    <label for="presentation-online">Онлайн</label>
+                                            <input type="radio" id="language-russian" name="report-language" value="russian">
+                                            <label for="language-russian">Русский</label>
                                 </div>
                             </div>
                         </div>
@@ -1239,52 +1205,15 @@
 
                 <!-- Success State -->
                 <div class="success-state" id="report-success">
-                    <h3 class="success-message">Вы успешно зарегистрировались на конференцию!</h3>
+                            <h3 class="success-message">✅ Доклад успешно подан!</h3>
 
-                    <div class="success-details">
-                        <div class="detail-row">
-                            <div class="detail-label">Дата и время выступления:</div>
-                            <div class="detail-value">22 апреля, 2026г., 15:00</div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="detail-label">Зал:</div>
-                            <div class="detail-value">Кабинет №202</div>
-                        </div>
-                        <div class="detail-row" style="grid-template-columns: 1fr;">
-                            <div class="detail-label">Название доклада:</div>
-                            <div class="report-title" id="success-report-title"></div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="detail-label">Форма выступления:</div>
-                            <div class="detail-value" id="success-presentation-format">Очная</div>
+                            <div class="btn-group" style="margin-top: 20px;">
+                                <button class="btn btn-primary" onclick="submitAnotherReport()">Подать еще один доклад</button>
                         </div>
                     </div>
 
-                    <div class="btn-group">
-                        <button class="btn btn-primary" onclick="submitAnotherReport()">Подать еще один доклад</button>
-                        <button class="btn btn-secondary" onclick="cancelReport()">Отменить участие</button>
-                    </div>
-
-                    <!-- Link to view all reports -->
-                    <div id="view-reports-link" style="display: none; margin-top: 20px; padding: 14px 18px; background-color: #f9f8fc; border-radius: 10px; border-left: 3px solid #5B4E99;">
-                        <a onclick="scrollToSection('my-reports')" style="color: #5B4E99; cursor: pointer; text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; font-size: 14px;">
-                            <span>📋</span>
-                            <span>Посмотреть все мои доклады</span>
-                            <span style="color: #999; font-size: 12px;">↓</span>
-                        </a>
-                    </div>
-                </div>
-                    </div>
-
-                    <!-- Мои доклады Subsection -->
-                    <div class="section subsection" id="my-reports">
-                        <h3 class="subsection-title">Мои доклады</h3>
-
-                        <div class="info-text" style="margin-bottom: 20px; color: #666; font-size: 14px;">
-                            Здесь отображаются все ваши доклады, поданные на КМУ 2026. Вы можете редактировать или удалять их до окончания приема заявок.
-                        </div>
-
-                        <div id="my-reports-content">
+                        <!-- Submitted Reports List -->
+                        <div id="my-reports-content" style="margin-top: 30px;">
                             <!-- This will be populated by JavaScript -->
                 </div>
                     </div>
@@ -1457,7 +1386,6 @@
         let state = {
             hasArchive: true, // Change to false to show empty state
             registrationSubmitted: false,
-            participantMode: 'speaker', // 'speaker' or 'listener'
             reportSubmitted: false,
             submittedReports: [], // Array of submitted reports for KMU 2026
             archiveData: [
@@ -1489,6 +1417,40 @@
                     top: sectionTop - offset,
                     behavior: 'smooth'
                 });
+                
+                // Update active menu item
+                updateActiveMenuItem(sectionId);
+            }
+        }
+
+        // Update active menu item based on current section
+        function updateActiveMenuItem(sectionId) {
+            // Remove active class from all nav links
+            const allNavLinks = document.querySelectorAll('.nav-link');
+            allNavLinks.forEach(link => link.classList.remove('active'));
+            
+            // Add active class to the current section's link
+            const activeLink = document.querySelector(`.nav-link[data-section="${sectionId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+        }
+
+        // Detect which section is currently visible and update menu
+        function updateActiveMenuOnScroll() {
+            const sections = ['personal-data', 'kmu-2026', 'registration', 'my-reports', 'archive', 'contacts'];
+            const offset = 100; // Offset from top to trigger activation
+            
+            for (const sectionId of sections) {
+                const section = getElement(sectionId);
+                if (section) {
+                    const rect = section.getBoundingClientRect();
+                    // Check if section is in viewport
+                    if (rect.top <= offset && rect.bottom >= offset) {
+                        updateActiveMenuItem(sectionId);
+                        break;
+                    }
+                }
             }
         }
 
@@ -1581,53 +1543,65 @@
 
         // Update submit report section visibility
         function updateSubmitReportVisibility() {
-            const submitReportSection = getElement('submit-report');
+            const submitReportBtn = getElement('submit-report-btn');
+            const registrationHint = getElement('registration-required-hint');
             const reportFormMode = getElement('report-form-mode');
             const reportSuccess = getElement('report-success');
-            const lockedMessage = getElement('submit-report-locked-message');
-            const listenerInfoText = getElement('listener-info-text');
+            const showFormSection = getElement('show-report-form-section');
             
-            if (!submitReportSection || !reportFormMode || !reportSuccess || !lockedMessage || !listenerInfoText) {
+            if (!submitReportBtn || !registrationHint || !reportFormMode || !reportSuccess || !showFormSection) {
                 console.warn('Some elements for submit report visibility are missing');
                 return;
             }
 
-            if (state.registrationSubmitted && state.participantMode === 'speaker') {
-                // Show submit report section if registered as speaker
-                submitReportSection.classList.remove('locked');
-                lockedMessage.style.display = 'none';
+            if (state.registrationSubmitted) {
+                // Enable button and hide hint
+                submitReportBtn.disabled = false;
+                submitReportBtn.style.opacity = '1';
+                submitReportBtn.style.cursor = 'pointer';
+                registrationHint.style.display = 'none';
                 
-                // Show form or success state based on current state
-                // Check if there's a success state visible or if we just submitted
+                // Check if there's a success state visible or if we have submitted reports
                 const isSuccessVisible = reportSuccess.classList.contains('active');
                 if (isSuccessVisible || (state.reportSubmitted && state.submittedReports.length > 0)) {
-                    // Show success state, hide form
+                    // Show success state, hide form and button
+                    showFormSection.style.display = 'none';
                     reportFormMode.style.setProperty('display', 'none', 'important');
                     reportSuccess.classList.add('active');
                 } else {
-                    // Show form, hide success
-                    reportFormMode.style.setProperty('display', 'block', 'important');
+                    // Show button section, hide form
+                    showFormSection.style.display = 'block';
+                    reportFormMode.style.setProperty('display', 'none', 'important');
                     reportSuccess.classList.remove('active');
                 }
-                
-                // Show subtle listener info text
-                listenerInfoText.style.display = 'block';
-            } else if (state.registrationSubmitted && state.participantMode === 'listener') {
-                // Hide submit report section if registered as listener
-                submitReportSection.classList.add('locked');
-                reportFormMode.style.setProperty('display', 'none', 'important');
-                reportSuccess.classList.remove('active');
-                setInnerHTML(lockedMessage, '<strong>Вы зарегистрированы как слушатель.</strong><br>Подача доклада не требуется для участия в режиме слушателя.');
-                lockedMessage.style.display = 'block';
-                listenerInfoText.style.display = 'none';
             } else {
-                // Hide submit report section if not registered
-                submitReportSection.classList.add('locked');
+                // Disable button and show hint
+                submitReportBtn.disabled = true;
+                submitReportBtn.style.opacity = '0.5';
+                submitReportBtn.style.cursor = 'not-allowed';
+                registrationHint.style.display = 'block';
+                showFormSection.style.display = 'block';
                 reportFormMode.style.setProperty('display', 'none', 'important');
                 reportSuccess.classList.remove('active');
-                setInnerHTML(lockedMessage, '<strong>Для подачи доклада необходимо сначала зарегистрироваться на конференцию.</strong><br>Пожалуйста, зарегистрируйтесь в разделе "Регистрация на конференцию" выше.');
-                lockedMessage.style.display = 'block';
-                listenerInfoText.style.display = 'none';
+            }
+        }
+
+        // Show report form when button is clicked
+        function showReportForm() {
+            const showFormSection = getElement('show-report-form-section');
+            const reportFormMode = getElement('report-form-mode');
+            
+            if (showFormSection && reportFormMode) {
+                showFormSection.style.display = 'none';
+                reportFormMode.style.setProperty('display', 'block', 'important');
+                
+                // Scroll to form
+                setTimeout(() => {
+                    const titleInput = getElement('report-title');
+                    if (titleInput) {
+                        titleInput.focus();
+                    }
+                }, 100);
             }
         }
 
@@ -1706,24 +1680,16 @@
 
             return safeExecute(() => {
                 const formatRadio = document.querySelector('input[name="format"]:checked');
-                const modeRadio = document.querySelector('input[name="participant-mode"]:checked');
                 
-                if (!formatRadio || !modeRadio) {
-                    alert('Пожалуйста, выберите формат участия и режим участия');
+                if (!formatRadio) {
+                    alert('Пожалуйста, выберите формат участия');
                     return false;
                 }
                 
                 const format = formatRadio.value;
                 const formatText = format === 'in-person' ? 'Очный' : 'Онлайн';
-                const participantMode = modeRadio.value;
-                const modeText = participantMode === 'speaker' ? 'Докладчик' : 'Слушатель';
-
-                // Store previous mode to check if it changed
-                const previousMode = state.participantMode;
-                const wasRegistered = state.registrationSubmitted;
 
                 setTextContent(getElement('success-format'), formatText);
-                setTextContent(getElement('success-mode'), modeText);
 
                 const registrationForm = getElement('registration-form-mode');
                 const registrationSuccess = getElement('registration-success');
@@ -1737,18 +1703,6 @@
                 registrationSuccess.classList.add('active');
 
             state.registrationSubmitted = true;
-            state.participantMode = participantMode;
-
-            // If mode changed from speaker to listener, hide report form
-            // If mode changed from listener to speaker, show report form
-            if (wasRegistered && previousMode !== participantMode) {
-                if (previousMode === 'speaker' && participantMode === 'listener') {
-                    // Hide report form and clear any submitted reports if switching to listener
-                    // (optional: you might want to keep reports, but hide the form)
-                } else if (previousMode === 'listener' && participantMode === 'speaker') {
-                    // Show report form when switching to speaker
-                }
-            }
 
                 // Update submit report section visibility
                 updateSubmitReportVisibility();
@@ -1771,9 +1725,6 @@
             // Show form, keep registration active
             registrationForm.style.display = 'block';
             registrationSuccess.classList.remove('active');
-
-            // Fill form with current values
-            setRadioChecked('participant-mode', state.participantMode);
 
             // Get current format from success state or use default
             const successFormat = getElement('success-format');
@@ -1801,10 +1752,8 @@
             const form = getElement('registration-form');
             if (form) form.reset();
             setRadioChecked('format', 'in-person');
-            setRadioChecked('participant-mode', 'speaker');
 
             state.registrationSubmitted = false;
-            state.participantMode = 'speaker';
 
             // Update submit report section visibility
             updateSubmitReportVisibility();
@@ -1856,9 +1805,14 @@
             }
             
                 // Validate form
-                const title = titleInput.value.trim();
-                const section = sectionSelect.value;
-                const abstract = abstractTextarea.value.trim();
+            const title = titleInput.value.trim();
+            const section = sectionSelect.value;
+            const abstract = abstractTextarea.value.trim();
+
+                // Get language selection
+                const languageRadio = document.querySelector('input[name="report-language"]:checked');
+                const language = languageRadio ? languageRadio.value : 'english';
+                const languageText = language === 'english' ? 'Английский' : 'Русский';
                 
                 try {
                     validateRequired(title, 'Название доклада');
@@ -1874,14 +1828,9 @@
             }
 
                 const sectionText = sectionSelect.options[sectionSelect.selectedIndex]?.text || section;
-            const formatRadio = document.querySelector('input[name="presentation-format"]:checked');
-            const format = formatRadio ? formatRadio.value : 'in-person';
-            const formatText = format === 'in-person' ? 'Очная' : 'Онлайн';
-
-            // Generate mock schedule data
-            const rooms = ['Кабинет №202', 'Кабинет №301', 'Аудитория №101', 'Конференц-зал'];
-            const times = ['10:00', '11:30', '14:00', '15:30', '17:00'];
-            const dates = ['22 апреля, 2026г.', '23 апреля, 2026г.', '24 апреля, 2026г.'];
+                // Format is determined by registration format, not report form
+                const format = 'in-person'; // Default value, can be extended later
+                const formatText = 'Очная';
             
             const reportData = {
                 id: Date.now(),
@@ -1890,10 +1839,9 @@
                 sectionText: sectionText,
                 format: format,
                 formatText: formatText,
+                    language: language,
+                    languageText: languageText,
                 abstract: abstract,
-                date: dates[Math.floor(Math.random() * dates.length)],
-                time: times[Math.floor(Math.random() * times.length)],
-                room: rooms[Math.floor(Math.random() * rooms.length)],
                 status: 'pending',
                 submittedAt: new Date().toISOString()
             };
@@ -1949,7 +1897,6 @@
 
             // Refresh reports lists
             renderMyReports();
-                updateViewReportsLink();
 
                 // Update visibility to ensure form stays hidden
                 updateSubmitReportVisibility();
@@ -1973,19 +1920,25 @@
         function cancelReport() {
             const formMode = getElement('report-form-mode');
             const successState = getElement('report-success');
+            const showFormSection = getElement('show-report-form-section');
             
             if (!formMode || !successState) {
                 console.error('Report form elements not found');
                 return;
             }
             
-            formMode.style.setProperty('display', 'block', 'important');
+            // Hide form and success
+            formMode.style.setProperty('display', 'none', 'important');
             successState.classList.remove('active');
+            
+            // Show button section if registered
+            if (showFormSection && state.registrationSubmitted) {
+                showFormSection.style.display = 'block';
+            }
 
             // Reset form
             const form = getElement('report-form');
             if (form) form.reset();
-            setRadioChecked('presentation-format', 'in-person');
 
             state.reportSubmitted = false;
 
@@ -1994,12 +1947,15 @@
         }
 
         function submitAnotherReport() {
-            // Reset form and show it
+            console.log('submitAnotherReport called');
+            
+            // Reset form and show it directly
+            const showReportFormSection = getElement('show-report-form-section');
             const formMode = getElement('report-form-mode');
             const successState = getElement('report-success');
             const form = getElement('report-form');
             
-            if (!formMode || !successState || !form) {
+            if (!showReportFormSection || !formMode || !successState || !form) {
                 console.error('Report form elements not found');
                 return;
             }
@@ -2007,12 +1963,15 @@
             // Hide success state
             successState.classList.remove('active');
             
-            // Show form
+            // Hide the button section and show form directly
+            showReportFormSection.style.display = 'none';
             formMode.style.setProperty('display', 'block', 'important');
             
             // Reset form
             form.reset();
-            setRadioChecked('presentation-format', 'in-person');
+            
+            // Reset language to English (default)
+            setRadioChecked('report-language', 'english');
             
             // Reset submission state
             state.reportSubmitted = false;
@@ -2020,8 +1979,7 @@
             // Ensure form submit handler is attached (using safe method)
             safeAddEventListener(form, 'submit', handleReportFormSubmit);
             
-            // Update visibility
-            updateSubmitReportVisibility();
+            // DO NOT call updateSubmitReportVisibility() here - it will show the button again
             
             // Scroll to form and focus
             setTimeout(() => {
@@ -2029,7 +1987,7 @@
                 if (titleInput) {
                     titleInput.focus();
                 }
-                scrollToSection('submit-report');
+                scrollToSection('my-reports');
             }, 100);
         }
 
@@ -2043,24 +2001,14 @@
             }
 
             if (state.submittedReports.length === 0) {
-                setInnerHTML(myReportsContent, `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">📋</div>
-                        <div class="empty-state-text">У вас пока нет поданных докладов на КМУ 2026</div>
-                    </div>
-                `);
+                // Don't show empty state - it's handled by button section
+                setInnerHTML(myReportsContent, '');
             } else {
-                // Update view reports link when rendering
-                updateViewReportsLink();
-                
                 // Sanitize all user input to prevent XSS
                 const reportsHtml = state.submittedReports.map(report => {
                     const safeTitle = escapeHtml(report.title);
                     const safeSectionText = escapeHtml(report.sectionText);
-                    const safeFormatText = escapeHtml(report.formatText);
-                    const safeDate = report.date ? escapeHtml(report.date) : '';
-                    const safeTime = report.time ? escapeHtml(report.time) : '';
-                    const safeRoom = report.room ? escapeHtml(report.room) : '';
+                    const safeLanguageText = report.languageText ? escapeHtml(report.languageText) : '';
                     const safeStatus = escapeHtml(report.status);
                     const safeStatusText = escapeHtml(getStatusText(report.status));
                     const reportId = Number(report.id) || 0; // Ensure it's a number for onclick
@@ -2072,9 +2020,7 @@
                                     <div class="report-card-title">${safeTitle}</div>
                                         <div class="report-card-meta">
                                         <div><strong>Секция:</strong> ${safeSectionText}</div>
-                                        <div><strong>Форма:</strong> ${safeFormatText}</div>
-                                        ${safeDate ? `<div><strong>Дата и время:</strong> ${safeDate}, ${safeTime}</div>` : ''}
-                                        ${safeRoom ? `<div><strong>Зал:</strong> ${safeRoom}</div>` : ''}
+                                        ${safeLanguageText ? `<div><strong>Язык:</strong> ${safeLanguageText}</div>` : ''}
                                         </div>
                                     </div>
                                 <span class="report-status ${safeStatus}">${safeStatusText}</span>
@@ -2088,18 +2034,6 @@
                 }).join('');
                 
                 setInnerHTML(myReportsContent, `<div class="report-list">${reportsHtml}</div>`);
-            }
-        }
-
-        // Update view reports link visibility
-        function updateViewReportsLink() {
-            const viewReportsLink = getElement('view-reports-link');
-            if (viewReportsLink) {
-                // Show link only if there are submitted reports AND user is registered as speaker
-                const shouldShow = state.submittedReports.length > 0 && 
-                                  state.registrationSubmitted && 
-                                  state.participantMode === 'speaker';
-                viewReportsLink.style.display = shouldShow ? 'block' : 'none';
             }
         }
 
@@ -2137,7 +2071,10 @@
             setFormValue('report-section', report.section);
             setFormValue('report-abstract', report.abstract);
             
-            setRadioChecked('presentation-format', report.format);
+            // Set language radio button
+            if (report.language) {
+                setRadioChecked('report-language', report.language);
+            }
 
             // Show form
             const formMode = getElement('report-form-mode');
@@ -2181,7 +2118,6 @@
             if (state.submittedReports.length < initialLength) {
                 console.log('Report deleted successfully');
                 renderMyReports();
-                updateViewReportsLink();
                 
                 // If no reports left, update visibility
                 if (state.submittedReports.length === 0) {
@@ -2245,31 +2181,34 @@
             // Render my reports
             renderMyReports();
 
-                // Update view reports link
-                updateViewReportsLink();
-
-                // Update registration visibility based on personal data
-                updateRegistrationVisibility();
+            // Update registration visibility based on personal data
+            updateRegistrationVisibility();
 
                 // Explicitly ensure report form is hidden on load
                 const reportFormMode = getElement('report-form-mode');
                 if (reportFormMode) {
-                    if (!state.registrationSubmitted || state.participantMode !== 'speaker') {
-                        reportFormMode.style.setProperty('display', 'none', 'important');
-                    }
+                    reportFormMode.style.setProperty('display', 'none', 'important');
                 }
 
-            // Auto-open KMU submenu
-                const kmuSubmenu = getElement('kmu-submenu');
-                if (kmuSubmenu) {
-                    kmuSubmenu.classList.add('active');
-                }
+            // KMU submenu is always open now (set in HTML with "active" class)
 
                 // Attach form submit handler (using safe method)
                 const reportForm = getElement('report-form');
             if (reportForm) {
                     safeAddEventListener(reportForm, 'submit', handleReportFormSubmit);
                 }
+            
+            // Add scroll event listener for active menu tracking
+            let scrollTimeout;
+            window.addEventListener('scroll', function() {
+                // Debounce scroll event
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(updateActiveMenuOnScroll, 100);
+            });
+            
+            // Initial update of active menu item
+            updateActiveMenuOnScroll();
+            
             }, 'Ошибка при инициализации страницы');
         });
     </script>
