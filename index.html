@@ -311,6 +311,75 @@
             line-height: 1.3;
         }
 
+        /* Hint Box Styles */
+        .hint-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .hint-box.warning {
+            background: transparent;
+            border: none;
+            color: #666;
+            padding: 8px 0;
+        }
+
+        .hint-box.info {
+            background: #d1ecf1;
+            border: 1px solid #17a2b8;
+            color: #0c5460;
+        }
+
+        .hint-icon {
+            font-size: 16px;
+            flex-shrink: 0;
+            opacity: 0.6;
+        }
+
+        .hint-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .hint-link {
+            color: #5B4E99;
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: color 0.2s;
+            font-size: 13px;
+        }
+
+        .hint-link:hover {
+            color: #4a3d7f;
+        }
+
+        /* Button icon */
+        .btn-icon {
+            display: inline-flex;
+            margin-right: 6px;
+            font-size: 16px;
+        }
+
+        .btn:disabled .btn-icon {
+            opacity: 0.6;
+        }
+
+        .btn:not(:disabled) .btn-icon {
+            display: none;
+        }
+
         .section-subtitle {
             font-size: 15px;
             color: #666;
@@ -1131,16 +1200,22 @@
 
                         <!-- Button to show report form (always visible, disabled if not registered) -->
                         <div id="show-report-form-section">
-                            <p class="section-subtitle" style="font-size: 14px; color: #666; margin-bottom: 16px;">
+                            <!-- Text before registration -->
+                            <p class="section-subtitle" id="report-hint-before-registration" style="font-size: 14px; color: #666; margin-bottom: 16px; display: none;">
+                                Если вы хотите представить доклад, <a onclick="scrollToSection('registration')" style="color: #5B4E99; text-decoration: underline; cursor: pointer; font-weight: 500;">зарегистрируйтесь на конференцию</a>.<br>
+                                <span style="color: #999; font-size: 13px;">Подача доклада необязательна — вы можете участвовать в конференции как слушатель.</span>
+                            </p>
+                            
+                            <!-- Text after registration -->
+                            <p class="section-subtitle" id="report-hint-after-registration" style="font-size: 14px; color: #666; margin-bottom: 16px; display: none;">
                                 Если вы хотите представить доклад на конференции, нажмите кнопку ниже.<br>
                                 <span style="color: #999; font-size: 13px;">Подача доклада необязательна — вы можете участвовать в конференции как слушатель.</span>
                             </p>
+                            
                             <button id="submit-report-btn" class="btn btn-primary" onclick="showReportForm()" style="margin-bottom: 20px;" disabled>
-                                Подать доклад
+                                <span class="btn-icon" id="submit-report-icon">🔒</span>
+                                <span>Подать доклад</span>
                             </button>
-                            <p id="registration-required-hint" style="font-size: 13px; color: #999; margin-top: -12px; margin-bottom: 20px;">
-                                Для подачи доклада необходимо зарегистрироваться на конференцию
-                            </p>
                 </div>
 
                 <!-- Form Mode -->
@@ -1544,22 +1619,32 @@
         // Update submit report section visibility
         function updateSubmitReportVisibility() {
             const submitReportBtn = getElement('submit-report-btn');
-            const registrationHint = getElement('registration-required-hint');
+            const submitReportIcon = getElement('submit-report-icon');
             const reportFormMode = getElement('report-form-mode');
             const reportSuccess = getElement('report-success');
             const showFormSection = getElement('show-report-form-section');
+            const hintBeforeReg = getElement('report-hint-before-registration');
+            const hintAfterReg = getElement('report-hint-after-registration');
             
-            if (!submitReportBtn || !registrationHint || !reportFormMode || !reportSuccess || !showFormSection) {
+            if (!submitReportBtn || !reportFormMode || !reportSuccess || !showFormSection) {
                 console.warn('Some elements for submit report visibility are missing');
                 return;
             }
 
             if (state.registrationSubmitted) {
-                // Enable button and hide hint
+                // Enable button
                 submitReportBtn.disabled = false;
                 submitReportBtn.style.opacity = '1';
                 submitReportBtn.style.cursor = 'pointer';
-                registrationHint.style.display = 'none';
+                
+                // Show "after registration" text
+                if (hintBeforeReg) hintBeforeReg.style.display = 'none';
+                if (hintAfterReg) hintAfterReg.style.display = 'block';
+                
+                // Remove lock icon when button is enabled
+                if (submitReportIcon) {
+                    submitReportIcon.textContent = '';
+                }
                 
                 // Check if there's a success state visible or if we have submitted reports
                 const isSuccessVisible = reportSuccess.classList.contains('active');
@@ -1575,11 +1660,20 @@
                     reportSuccess.classList.remove('active');
                 }
             } else {
-                // Disable button and show hint
+                // Disable button
                 submitReportBtn.disabled = true;
                 submitReportBtn.style.opacity = '0.5';
                 submitReportBtn.style.cursor = 'not-allowed';
-                registrationHint.style.display = 'block';
+                
+                // Show "before registration" text (hint is already in the text)
+                if (hintBeforeReg) hintBeforeReg.style.display = 'block';
+                if (hintAfterReg) hintAfterReg.style.display = 'none';
+                
+                // Show lock icon when button is disabled
+                if (submitReportIcon) {
+                    submitReportIcon.textContent = '🔒';
+                }
+                
                 showFormSection.style.display = 'block';
                 reportFormMode.style.setProperty('display', 'none', 'important');
                 reportSuccess.classList.remove('active');
