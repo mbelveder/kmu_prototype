@@ -691,6 +691,169 @@
             color: #c33;
         }
 
+        /* Wizard Styles */
+        .wizard-progress {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 30px 0 40px;
+            padding: 0 20px;
+        }
+
+        .wizard-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .wizard-step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e8eaf5;
+            color: #999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .wizard-step.active .wizard-step-number {
+            background: #5B4E99;
+            color: white;
+            box-shadow: 0 4px 12px rgba(91, 78, 153, 0.3);
+        }
+
+        .wizard-step.completed .wizard-step-number {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .wizard-step-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #999;
+            transition: color 0.3s ease;
+        }
+
+        .wizard-step.active .wizard-step-label {
+            color: #5B4E99;
+            font-weight: 600;
+        }
+
+        .wizard-step.completed .wizard-step-label {
+            color: #4CAF50;
+        }
+
+        .wizard-step-line {
+            flex: 1;
+            height: 3px;
+            background: #e8eaf5;
+            margin: 0 12px;
+            position: relative;
+            top: -18px;
+        }
+
+        .wizard-step-line.completed {
+            background: #4CAF50;
+        }
+
+        .wizard-step-content {
+            display: none;
+        }
+
+        .wizard-step-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .wizard-step-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e8eaf5;
+        }
+
+        .wizard-navigation {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #e8eaf5;
+        }
+
+        /* Field Validation Styles */
+        .form-input.valid,
+        .form-select.valid {
+            border-color: #4CAF50;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%234CAF50' d='M13.5 2L6 9.5 2.5 6 1 7.5l5 5 9-9z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        .form-input.error,
+        .form-select.error {
+            border-color: #f44336;
+        }
+
+        .field-error {
+            display: none;
+            color: #f44336;
+            font-size: 13px;
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
+        .field-error.visible {
+            display: block;
+        }
+
+        .field-hint {
+            color: #999;
+            font-size: 13px;
+            margin-top: 6px;
+            font-style: italic;
+        }
+
+        /* Character Counter */
+        .character-counter {
+            text-align: right;
+            font-size: 13px;
+            color: #999;
+            margin-top: 6px;
+        }
+
+        .character-counter.warning {
+            color: #ff9800;
+            font-weight: 600;
+        }
+
+        .character-counter.limit {
+            color: #f44336;
+            font-weight: 700;
+        }
+
         /* Display Mode Styles */
         .display-mode {
             display: none;
@@ -909,6 +1072,63 @@
             font-size: 14px;
             color: #666;
             margin-bottom: 12px;
+        }
+
+        .report-card-meta-compact {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .report-card-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            margin-top: 0;
+        }
+
+        .report-card-details.expanded {
+            max-height: 500px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #e8eaf5;
+        }
+
+        .report-card-abstract {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 12px;
+        }
+
+        .report-card-expand-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: none;
+            border: none;
+            color: #5B4E99;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 4px 0;
+            margin-top: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .report-card-expand-btn:hover {
+            color: #4a3d7f;
+            gap: 8px;
+        }
+
+        .report-card-expand-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .report-card-expand-btn.expanded .report-card-expand-icon {
+            transform: rotate(180deg);
         }
 
         .report-card-actions {
@@ -1348,104 +1568,156 @@
                         <strong>Предпочтительный язык участия:</strong> Английский
                     </div>
 
-                    <p class="section-subtitle">Если вы хотите представить доклад, пожалуйста, заполните информацию ниже. Все поля обязательны для заполнения.</p>
+                    <!-- Wizard Progress Indicator -->
+                    <div class="wizard-progress" id="wizard-progress">
+                        <div class="wizard-step active" data-step="1">
+                            <div class="wizard-step-number">1</div>
+                            <div class="wizard-step-label">Основное</div>
+                        </div>
+                        <div class="wizard-step-line"></div>
+                        <div class="wizard-step" data-step="2">
+                            <div class="wizard-step-number">2</div>
+                            <div class="wizard-step-label">Авторы</div>
+                        </div>
+                        <div class="wizard-step-line"></div>
+                        <div class="wizard-step" data-step="3">
+                            <div class="wizard-step-number">3</div>
+                            <div class="wizard-step-label">Материалы</div>
+                        </div>
+                    </div>
 
                     <form id="report-form" novalidate>
-                        <div class="form-row single">
-                            <div class="form-group">
-                                <label class="form-label required">Название доклада</label>
-                                <input type="text" class="form-input" id="report-title" placeholder="Введите название доклада">
-                            </div>
-                        </div>
+                        <!-- Step 1: Basic Information -->
+                        <div class="wizard-step-content active" data-step="1">
+                            <h4 class="wizard-step-title">Основная информация о докладе</h4>
 
-                        <div class="form-row single">
-                            <div class="form-group">
-                                <label class="form-label required">Секция</label>
-                                <select class="form-select" id="report-section">
-                                    <option value="">Выберите секцию</option>
-                                    <option value="solar">Физика солнечной системы</option>
-                                    <option value="astrophysics">Астрофизика и радиоастрономия</option>
-                                    <option value="remote">Дистанционное зондирование Земли</option>
-                                    <option value="instruments">Космическое приборостроение и эксперимент</option>
-                                    <option value="theory">Теория и моделирование физических процессов</option>
-                                    <option value="planets">Исследование планет</option>
-                                    <option value="social">Космос в социальных науках</option>
-                                    <option value="junior">Доклады юниоров (9–11 класс)</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                                    <label class="form-label required">Язык доклада</label>
-                            <div class="radio-group">
-                                <div class="radio-option">
-                                            <input type="radio" id="language-english" name="report-language" value="english" checked>
-                                            <label for="language-english">Английский</label>
-                                </div>
-                                <div class="radio-option">
-                                            <input type="radio" id="language-russian" name="report-language" value="russian">
-                                            <label for="language-russian">Русский</label>
+                            <div class="form-row single">
+                                <div class="form-group">
+                                    <label class="form-label required">Название доклада</label>
+                                    <input type="text" class="form-input" id="report-title" placeholder="Введите название доклада">
+                                    <div class="field-error" id="error-report-title"></div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="form-row single">
-                            <div class="form-group">
-                                <label class="form-label required">Аннотация доклада</label>
-                                <textarea class="form-input" id="report-abstract" rows="6" placeholder="Краткое описание доклада (не более 2000 символов)" maxlength="2000"></textarea>
+                            <div class="form-row single">
+                                <div class="form-group">
+                                    <label class="form-label required">Секция</label>
+                                    <select class="form-select" id="report-section">
+                                        <option value="">Выберите секцию</option>
+                                        <option value="solar">Физика солнечной системы</option>
+                                        <option value="astrophysics">Астрофизика и радиоастрономия</option>
+                                        <option value="remote">Дистанционное зондирование Земли</option>
+                                        <option value="instruments">Космическое приборостроение и эксперимент</option>
+                                        <option value="theory">Теория и моделирование физических процессов</option>
+                                        <option value="planets">Исследование планет</option>
+                                        <option value="social">Космос в социальных науках</option>
+                                        <option value="junior">Доклады юниоров (9–11 класс)</option>
+                                    </select>
+                                    <div class="field-error" id="error-report-section"></div>
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- Authors Section -->
-                        <div class="form-row single">
                             <div class="form-group">
-                                <label class="form-label required">Авторы</label>
-                                <div class="authors-container" id="authors-container">
-                                    <div class="author-field-group" data-author-index="0">
-                                        <input type="text" class="form-input author-input" placeholder="ФИО автора" data-author-id="0">
+                                <label class="form-label required">Язык доклада</label>
+                                <div class="radio-group">
+                                    <div class="radio-option">
+                                        <input type="radio" id="language-english" name="report-language" value="english" checked>
+                                        <label for="language-english">Английский</label>
                                     </div>
-                                </div>
-                                <a href="#" class="add-author-link" id="add-author-link" onclick="addAuthorField(event)">+ Добавить автора</a>
-                            </div>
-                        </div>
-
-                        <!-- Supervisor and Publication Link -->
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Научный руководитель</label>
-                                <input type="text" class="form-input" id="report-supervisor" placeholder="ФИО научного руководителя">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Ссылка на публикацию</label>
-                                <input type="url" class="form-input" id="report-publication-link" placeholder="https://...">
-                            </div>
-                        </div>
-
-                        <!-- Additional Materials -->
-                        <div class="form-row single">
-                            <div class="form-group">
-                                <label class="form-label">Дополнительные материалы</label>
-                                <div class="file-upload-section">
-                                    <div class="file-upload-row">
-                                        <span class="file-upload-label">Презентация:</span>
-                                        <input type="file" id="report-presentation-file" accept=".pdf,.ppt,.pptx" style="display: none;" onchange="handleFileSelect('report-presentation-file', 'presentation-file-name')">
-                                        <button type="button" class="btn btn-secondary file-upload-btn" onclick="document.getElementById('report-presentation-file').click()">Выбрать файл</button>
-                                        <span class="file-name-display" id="presentation-file-name">Не выбран</span>
-                                        <button type="button" class="remove-file-btn" id="remove-presentation-btn" style="display: none;" onclick="removeFile('report-presentation-file', 'presentation-file-name')" title="Удалить файл">×</button>
-                                    </div>
-                                    <div class="file-upload-row">
-                                        <span class="file-upload-label">Экспертное заключение:</span>
-                                        <input type="file" id="report-expert-opinion-file" accept=".pdf,.doc,.docx" style="display: none;" onchange="handleFileSelect('report-expert-opinion-file', 'expert-opinion-file-name')">
-                                        <button type="button" class="btn btn-secondary file-upload-btn" onclick="document.getElementById('report-expert-opinion-file').click()">Выбрать файл</button>
-                                        <span class="file-name-display" id="expert-opinion-file-name">Не выбран</span>
-                                        <button type="button" class="remove-file-btn" id="remove-expert-opinion-btn" style="display: none;" onclick="removeFile('report-expert-opinion-file', 'expert-opinion-file-name')" title="Удалить файл">×</button>
+                                    <div class="radio-option">
+                                        <input type="radio" id="language-russian" name="report-language" value="russian">
+                                        <label for="language-russian">Русский</label>
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="form-row single">
+                                <div class="form-group">
+                                    <label class="form-label required">Аннотация доклада</label>
+                                    <textarea class="form-input" id="report-abstract" rows="6" placeholder="Краткое описание доклада (не более 2000 символов)" maxlength="2000"></textarea>
+                                    <div class="character-counter" id="abstract-counter">0 / 2000</div>
+                                    <div class="field-error" id="error-report-abstract"></div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="btn-group">
-                            <button type="submit" class="btn btn-primary">Подать доклад</button>
+                        <!-- Step 2: Authors and Supervisor -->
+                        <div class="wizard-step-content" data-step="2">
+                            <h4 class="wizard-step-title">Авторы и научный руководитель</h4>
+
+                            <!-- Authors Section -->
+                            <div class="form-row single">
+                                <div class="form-group">
+                                    <label class="form-label required">Авторы</label>
+                                    <div class="authors-container" id="authors-container">
+                                        <div class="author-field-group" data-author-index="0">
+                                            <input type="text" class="form-input author-input" placeholder="ФИО автора" data-author-id="0">
+                                        </div>
+                                    </div>
+                                    <a href="#" class="add-author-link" id="add-author-link" onclick="addAuthorField(event)">+ Добавить автора</a>
+                                    <div class="field-error" id="error-authors"></div>
+                                </div>
+                            </div>
+
+                            <!-- Supervisor -->
+                            <div class="form-row single">
+                                <div class="form-group">
+                                    <label class="form-label">Научный руководитель <span style="color: #999; font-size: 13px;">(необязательно)</span></label>
+                                    <input type="text" class="form-input" id="report-supervisor" placeholder="ФИО научного руководителя">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Additional Materials -->
+                        <div class="wizard-step-content" data-step="3">
+                            <h4 class="wizard-step-title">Дополнительные материалы</h4>
+                            <p style="color: #999; font-size: 14px; margin-bottom: 20px;">Все поля этого шага необязательны</p>
+
+                            <!-- Publication Link -->
+                            <div class="form-row single">
+                                <div class="form-group">
+                                    <label class="form-label">Ссылка на публикацию</label>
+                                    <input type="url" class="form-input" id="report-publication-link" placeholder="https://...">
+                                    <div class="field-hint">Например, ссылка на arXiv, журнал или другой источник</div>
+                                </div>
+                            </div>
+
+                            <!-- File Uploads -->
+                            <div class="form-row single">
+                                <div class="form-group">
+                                    <label class="form-label">Файлы</label>
+                                    <div class="file-upload-section">
+                                        <div class="file-upload-row">
+                                            <span class="file-upload-label">Презентация:</span>
+                                            <input type="file" id="report-presentation-file" accept=".pdf,.ppt,.pptx" style="display: none;" onchange="handleFileSelect('report-presentation-file', 'presentation-file-name')">
+                                            <button type="button" class="btn btn-secondary file-upload-btn" onclick="document.getElementById('report-presentation-file').click()">Выбрать файл</button>
+                                            <span class="file-name-display" id="presentation-file-name">Не выбран</span>
+                                            <button type="button" class="remove-file-btn" id="remove-presentation-btn" style="display: none;" onclick="removeFile('report-presentation-file', 'presentation-file-name')" title="Удалить файл">×</button>
+                                        </div>
+                                        <div class="file-upload-row">
+                                            <span class="file-upload-label">Экспертное заключение:</span>
+                                            <input type="file" id="report-expert-opinion-file" accept=".pdf,.doc,.docx" style="display: none;" onchange="handleFileSelect('report-expert-opinion-file', 'expert-opinion-file-name')">
+                                            <button type="button" class="btn btn-secondary file-upload-btn" onclick="document.getElementById('report-expert-opinion-file').click()">Выбрать файл</button>
+                                            <span class="file-name-display" id="expert-opinion-file-name">Не выбран</span>
+                                            <button type="button" class="remove-file-btn" id="remove-expert-opinion-btn" style="display: none;" onclick="removeFile('report-expert-opinion-file', 'expert-opinion-file-name')" title="Удалить файл">×</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Wizard Navigation -->
+                        <div class="wizard-navigation">
+                            <button type="button" class="btn btn-secondary" id="wizard-prev-btn" onclick="wizardPrevStep()" style="display: none;">
+                                ← Назад
+                            </button>
+                            <div style="flex: 1;"></div>
+                            <button type="button" class="btn btn-primary" id="wizard-next-btn" onclick="wizardNextStep()">
+                                Далее →
+                            </button>
+                            <button type="submit" class="btn btn-primary" id="wizard-submit-btn" style="display: none;">
+                                Подать доклад
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -1853,6 +2125,258 @@
         }
 
         // Show report form when button is clicked
+        // Wizard state
+        let currentWizardStep = 1;
+        const totalWizardSteps = 3;
+
+        // Wizard navigation functions
+        function wizardNextStep() {
+            // Validate current step
+            if (!validateWizardStep(currentWizardStep)) {
+                return;
+            }
+
+            // Move to next step
+            if (currentWizardStep < totalWizardSteps) {
+                currentWizardStep++;
+                updateWizardDisplay();
+            }
+        }
+
+        function wizardPrevStep() {
+            if (currentWizardStep > 1) {
+                currentWizardStep--;
+                updateWizardDisplay();
+            }
+        }
+
+        function updateWizardDisplay() {
+            // Update step content visibility
+            document.querySelectorAll('.wizard-step-content').forEach((content, index) => {
+                if (index + 1 === currentWizardStep) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
+                }
+            });
+
+            // Update progress indicator
+            document.querySelectorAll('.wizard-step').forEach((step, index) => {
+                const stepNumber = index + 1;
+                if (stepNumber < currentWizardStep) {
+                    step.classList.add('completed');
+                    step.classList.remove('active');
+                } else if (stepNumber === currentWizardStep) {
+                    step.classList.add('active');
+                    step.classList.remove('completed');
+                } else {
+                    step.classList.remove('active', 'completed');
+                }
+            });
+
+            // Update step lines
+            document.querySelectorAll('.wizard-step-line').forEach((line, index) => {
+                if (index + 1 < currentWizardStep) {
+                    line.classList.add('completed');
+                } else {
+                    line.classList.remove('completed');
+                }
+            });
+
+            // Update navigation buttons
+            const prevBtn = document.getElementById('wizard-prev-btn');
+            const nextBtn = document.getElementById('wizard-next-btn');
+            const submitBtn = document.getElementById('wizard-submit-btn');
+
+            if (prevBtn) {
+                prevBtn.style.display = currentWizardStep > 1 ? 'block' : 'none';
+            }
+
+            if (nextBtn && submitBtn) {
+                if (currentWizardStep === totalWizardSteps) {
+                    nextBtn.style.display = 'none';
+                    submitBtn.style.display = 'block';
+                } else {
+                    nextBtn.style.display = 'block';
+                    submitBtn.style.display = 'none';
+                }
+            }
+
+            // Scroll to top of form
+            const formMode = document.getElementById('report-form-mode');
+            if (formMode) {
+                formMode.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function validateWizardStep(step) {
+            let isValid = true;
+            clearAllFieldErrors();
+
+            if (step === 1) {
+                // Step 1: Validate basic information
+                const title = document.getElementById('report-title');
+                const section = document.getElementById('report-section');
+                const abstract = document.getElementById('report-abstract');
+
+                if (!title || !title.value.trim()) {
+                    showFieldError('report-title', 'Название доклада обязательно');
+                    isValid = false;
+                } else {
+                    markFieldValid('report-title');
+                }
+
+                if (!section || !section.value) {
+                    showFieldError('report-section', 'Выберите секцию');
+                    isValid = false;
+                } else {
+                    markFieldValid('report-section');
+                }
+
+                if (!abstract || !abstract.value.trim()) {
+                    showFieldError('report-abstract', 'Аннотация обязательна');
+                    isValid = false;
+                } else if (abstract.value.trim().length < 50) {
+                    showFieldError('report-abstract', 'Аннотация слишком короткая (минимум 50 символов)');
+                    isValid = false;
+                } else {
+                    markFieldValid('report-abstract');
+                }
+            } else if (step === 2) {
+                // Step 2: Validate authors
+                const authors = getAuthors();
+                if (authors.length === 0) {
+                    showFieldError('authors', 'Укажите хотя бы одного автора');
+                    const firstAuthorInput = document.querySelector('.author-input');
+                    if (firstAuthorInput) {
+                        firstAuthorInput.classList.add('error');
+                        firstAuthorInput.focus();
+                    }
+                    isValid = false;
+                }
+            }
+            // Step 3: No required fields
+
+            return isValid;
+        }
+
+        function showFieldError(fieldId, message) {
+            const errorDiv = document.getElementById('error-' + fieldId);
+            const field = document.getElementById(fieldId);
+
+            if (errorDiv) {
+                errorDiv.textContent = message;
+                errorDiv.classList.add('visible');
+            }
+
+            if (field) {
+                field.classList.add('error');
+                field.classList.remove('valid');
+            }
+        }
+
+        function markFieldValid(fieldId) {
+            const errorDiv = document.getElementById('error-' + fieldId);
+            const field = document.getElementById(fieldId);
+
+            if (errorDiv) {
+                errorDiv.classList.remove('visible');
+            }
+
+            if (field) {
+                field.classList.add('valid');
+                field.classList.remove('error');
+            }
+        }
+
+        function clearAllFieldErrors() {
+            document.querySelectorAll('.field-error').forEach(error => {
+                error.classList.remove('visible');
+            });
+            document.querySelectorAll('.form-input, .form-select').forEach(field => {
+                field.classList.remove('error');
+            });
+        }
+
+        // Inline validation functions
+        function setupInlineValidation() {
+            // Title validation
+            const titleInput = document.getElementById('report-title');
+            if (titleInput) {
+                titleInput.addEventListener('blur', function() {
+                    if (this.value.trim()) {
+                        markFieldValid('report-title');
+                    } else {
+                        showFieldError('report-title', 'Название доклада обязательно');
+                    }
+                });
+                titleInput.addEventListener('input', function() {
+                    if (this.value.trim() && this.classList.contains('error')) {
+                        markFieldValid('report-title');
+                    }
+                });
+            }
+
+            // Section validation
+            const sectionSelect = document.getElementById('report-section');
+            if (sectionSelect) {
+                sectionSelect.addEventListener('change', function() {
+                    if (this.value) {
+                        markFieldValid('report-section');
+                    } else {
+                        showFieldError('report-section', 'Выберите секцию');
+                    }
+                });
+            }
+
+            // Abstract validation and character counter
+            const abstractTextarea = document.getElementById('report-abstract');
+            const abstractCounter = document.getElementById('abstract-counter');
+            if (abstractTextarea && abstractCounter) {
+                abstractTextarea.addEventListener('input', function() {
+                    const length = this.value.length;
+                    abstractCounter.textContent = `${length} / 2000`;
+
+                    // Update counter styling
+                    abstractCounter.classList.remove('warning', 'limit');
+                    if (length > 1800) {
+                        abstractCounter.classList.add('limit');
+                    } else if (length > 1500) {
+                        abstractCounter.classList.add('warning');
+                    }
+
+                    // Validate
+                    if (length === 0) {
+                        showFieldError('report-abstract', 'Аннотация обязательна');
+                    } else if (length < 50) {
+                        showFieldError('report-abstract', 'Аннотация слишком короткая (минимум 50 символов)');
+                    } else {
+                        markFieldValid('report-abstract');
+                    }
+                });
+            }
+        }
+
+        // Report card expansion toggle
+        function toggleReportCard(reportId) {
+            const card = document.querySelector(`[data-report-card="${reportId}"]`);
+            if (!card) return;
+
+            const details = card.querySelector('.report-card-details');
+            const button = card.querySelector('.report-card-expand-btn');
+
+            if (details && button) {
+                const isExpanded = details.classList.contains('expanded');
+                if (isExpanded) {
+                    details.classList.remove('expanded');
+                    button.classList.remove('expanded');
+                } else {
+                    details.classList.add('expanded');
+                    button.classList.add('expanded');
+                }
+            }
+        }
+
         // Authors management functions
         let authorCounter = 1;
 
@@ -2019,7 +2543,14 @@
                 showFormSection.style.display = 'none';
                 reportFormMode.style.setProperty('display', 'block', 'important');
 
-                // Scroll to form
+                // Initialize wizard
+                currentWizardStep = 1;
+                updateWizardDisplay();
+
+                // Setup inline validation
+                setupInlineValidation();
+
+                // Focus on first field
                 setTimeout(() => {
                     const titleInput = getElement('report-title');
                     if (titleInput) {
@@ -2443,7 +2974,14 @@
             clearAuthorsForm();
             removeFile('report-presentation-file', 'presentation-file-name');
             removeFile('report-expert-opinion-file', 'expert-opinion-file-name');
-            
+
+            // Reset wizard to step 1
+            currentWizardStep = 1;
+            updateWizardDisplay();
+
+            // Setup inline validation
+            setupInlineValidation();
+
             // Reset submission state
             state.reportSubmitted = false;
             
@@ -2499,26 +3037,41 @@
                     if (hasPresentation) filesText.push('📄 Презентация');
                     if (hasExpertOpinion) filesText.push('📋 Экспертное заключение');
 
+                    // Format abstract
+                    const safeAbstract = report.abstract ? escapeHtml(report.abstract) : '';
+
+                    // Format publication link
+                    const safePublicationLink = report.publicationLink ? escapeHtml(report.publicationLink) : '';
+
                     return `
-                            <div class="report-card">
+                            <div class="report-card" data-report-card="${reportId}">
                                 <div class="report-card-header">
                                     <div style="flex: 1;">
-                                    <div class="report-card-title">${safeTitle}</div>
-                                        <div class="report-card-meta">
-                                        <div><strong>Секция:</strong> ${safeSectionText}</div>
-                                        ${safeLanguageText ? `<div><strong>Язык:</strong> ${safeLanguageText}</div>` : ''}
-                                        ${authorsText ? `<div><strong>Авторы:</strong> ${authorsText}</div>` : ''}
-                                        ${supervisorText ? `<div><strong>Научный руководитель:</strong> ${supervisorText}</div>` : ''}
-                                        ${filesText.length > 0 ? `<div><strong>Файлы:</strong> ${filesText.join(', ')}</div>` : ''}
+                                        <div class="report-card-title">${safeTitle}</div>
+                                        <div class="report-card-meta-compact">
+                                            <div><strong>Секция:</strong> ${safeSectionText} | <strong>Язык:</strong> ${safeLanguageText || 'Английский'}</div>
                                         </div>
+                                        <button class="report-card-expand-btn" onclick="toggleReportCard(${reportId})">
+                                            <span>Подробнее</span>
+                                            <span class="report-card-expand-icon">▼</span>
+                                        </button>
                                     </div>
-                                <span class="report-status ${safeStatus}">${safeStatusText}</span>
+                                    <span class="report-status ${safeStatus}">${safeStatusText}</span>
                                 </div>
+
+                                <div class="report-card-details">
+                                    ${authorsText ? `<div style="margin-bottom: 12px;"><strong>Авторы:</strong> ${authorsText}</div>` : ''}
+                                    ${supervisorText ? `<div style="margin-bottom: 12px;"><strong>Научный руководитель:</strong> ${supervisorText}</div>` : ''}
+                                    ${safeAbstract ? `<div style="margin-bottom: 12px;"><strong>Аннотация:</strong><div class="report-card-abstract">${safeAbstract}</div></div>` : ''}
+                                    ${safePublicationLink ? `<div style="margin-bottom: 12px;"><strong>Публикация:</strong> <a href="${safePublicationLink}" target="_blank" style="color: #5B4E99;">${safePublicationLink}</a></div>` : ''}
+                                    ${filesText.length > 0 ? `<div style="margin-bottom: 12px;"><strong>Прикрепленные файлы:</strong> ${filesText.join(', ')}</div>` : ''}
+                                </div>
+
                                 <div class="report-card-actions">
-                                <button class="btn btn-secondary btn-small" onclick="editReport(${reportId})">Редактировать</button>
-                                <button class="btn btn-secondary btn-small" onclick="deleteReport(${reportId})">Удалить</button>
+                                    <button class="btn btn-secondary btn-small" onclick="editReport(${reportId})">Редактировать</button>
+                                    <button class="btn btn-secondary btn-small" onclick="deleteReport(${reportId})">Удалить</button>
                                 </div>
-                    </div>
+                            </div>
                 `;
                 }).join('');
                 
